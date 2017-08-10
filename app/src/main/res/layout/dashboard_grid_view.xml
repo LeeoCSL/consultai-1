@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="8dp"
+    android:background="#d1d1d1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridView
+        android:drawSelectorOnTop="true"
+        android:id="@+id/dashboard_gridview"
+        android:visibility="visible"
+        android:numColumns="3"
+        android:gravity="center|bottom"
+        android:horizontalSpacing="8dp"
+        android:stretchMode="spacingWidth"
+        android:verticalSpacing="8dp"
+        android:columnWidth="108dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </GridView>
+</FrameLayout>
