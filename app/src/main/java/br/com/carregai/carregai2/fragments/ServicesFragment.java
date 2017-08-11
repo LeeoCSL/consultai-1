@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,15 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -56,8 +64,8 @@ public class ServicesFragment extends Fragment {
 
         getItensList();
         View view = inflater.inflate(R.layout.service_layout, container, false);
-        mDisplay = view.findViewById(R.id.tv_display);
-        mGridView = view.findViewById(R.id.dashboard_gridview);
+        mDisplay = (TextView) view.findViewById(R.id.tv_display);
+        mGridView = (GridView) view.findViewById(R.id.dashboard_gridview);
         mGridView.setAdapter(new DashboardGridViewAdapter(view.getContext(), 1, mItens));
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,11 +96,11 @@ public class ServicesFragment extends Fragment {
         mItens = new ArrayList<>();
 
         mItens.add(new DashboardItem(R.drawable.ic_gasto_diario, "Gasto diário"));
-        mItens.add(new DashboardItem(R.drawable.ic_valor_recarga, "Valor de recarga"));
-        mItens.add(new DashboardItem(R.drawable.ic_calendar, "Dias de uso"));
+        mItens.add(new DashboardItem(R.drawable.dinheiro_480, "Valor de recarga"));
+        mItens.add(new DashboardItem(R.drawable.calendario2_480, "Dias de uso"));
         mItens.add(new DashboardItem(R.drawable.ic_ajuda, "Como usar"));
-        mItens.add(new DashboardItem(R.drawable.ic_limpar, "Limpar dados"));
-        mItens.add(new DashboardItem(R.drawable.ic_viagem_extra, "Viagem extra"));
+        mItens.add(new DashboardItem(R.drawable.ic_vassoura, "Limpar dados"));
+        mItens.add(new DashboardItem(R.drawable.metro_720, "Viagem extra"));
         mItens.add(new DashboardItem(R.drawable.crop_image_menu_crop, "Title " + 6));
         mItens.add(new DashboardItem(R.drawable.crop_image_menu_crop, "Title " + 6));
     }
@@ -162,6 +170,25 @@ public class ServicesFragment extends Fragment {
 
                 storeValue("saldo_atual", saldoFinal);
                 storeValue("valor_recarga", valorRecarga);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
+                Date data = new Date();
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(data);
+                Date dataAtual = cal.getTime();
+
+                String dataCompleta = dateFormat.format(dataAtual);
+
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("recargas");
+
+                HashMap<String, String> values = new HashMap<String, String>();
+                values.put("recarga_horario", dataCompleta);
+                values.put("recarga_valor", String.valueOf(valorRecarga));
+
+                ref.push().setValue(values);
             }
         });
 

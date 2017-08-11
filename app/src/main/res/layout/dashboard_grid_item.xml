@@ -10,9 +10,8 @@
 
     <ImageView
         android:id="@+id/grid_item_image"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@drawable/googleg_standard_color_18" />
+        android:layout_width="96dp"
+        android:layout_height="96dp" />
 
     <TextView
         android:id="@+id/grid_item_title"
@@ -20,5 +19,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Text"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
 </LinearLayout>

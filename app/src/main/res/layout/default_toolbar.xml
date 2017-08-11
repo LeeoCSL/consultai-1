@@ -12,13 +12,6 @@
         android:layout_margin="8dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_gravity="left"
-        android:src="@drawable/ic_settings" />
-
-    <ImageView
-        android:layout_margin="8dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_action_ic_action_logo_branco1" />
+        android:src="@drawable/logo_branco" />
 </android.support.v7.widget.Toolbar>

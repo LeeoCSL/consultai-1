@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "br.com.carregai.carregai2"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -29,21 +29,32 @@ dependencies {
         exclude module: 'support-annotations'
         exclude module: 'support-compat'
     }
+
+    compile('com.mikepenz:materialdrawer:5.6.0') {
+        transitive = true
+        exclude module: 'support-annotations'
+    }
+
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.firebase:firebase-auth:11.0.2'
+    compile 'com.google.firebase:firebase-auth:10.0.1'
+    compile 'com.google.android.gms:play-services-auth:10.0.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.google.firebase:firebase-database:11.0.2'
+    compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.firebaseui:firebase-ui-database:0.4.4'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
-    compile 'com.google.firebase:firebase-storage:11.0.2'
+    compile 'com.google.firebase:firebase-storage:10.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.iceteck.silicompressorr:silicompressor:2.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.github.BlacKCaT27:CurrencyEditText:2.0.1'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'id.zelory:compressor:2.1.0'
-
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
+
+apply plugin: 'com.google.gms.google-services'
