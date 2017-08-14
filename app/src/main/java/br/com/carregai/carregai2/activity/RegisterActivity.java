@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.model.User;
 import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,11 +95,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
 
-                            HashMap<String, String> values = new HashMap<String, String>();
-                            values.put("user_email", userEmail);
-                            values.put("user_name", userName);
+                            User user = new User();
+                            user.setEmail(userEmail);
+                            user.setName(userName);
 
-                            ref.setValue(values);
+                            ref.setValue(user);
 
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             finish();

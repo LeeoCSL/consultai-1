@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -52,9 +53,13 @@ dependencies {
     compile 'com.github.BlacKCaT27:CurrencyEditText:2.0.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'id.zelory:compressor:2.1.0'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
+
+
 
 
 apply plugin: 'com.google.gms.google-services'

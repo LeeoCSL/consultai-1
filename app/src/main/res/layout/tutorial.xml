@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:text="Como funciona?"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:text="1. Configure o valor da sua recarga no botão azul."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/btn_valor_recarga_720"
+            android:layout_width="141dp"
+            android:layout_height="72dp" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:text="2. No botão Gasto Diário, informe o total que você gasta todos os dias com transporte."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/btn_gasto_720"
+            android:layout_width="141dp"
+            android:layout_height="72dp" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:text="3. Clique no botão Dias de Uso e selecione todos os dias em que você utiliza seu bilhete único."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/btn_dias_uso_720"
+            android:layout_width="141dp"
+            android:layout_height="72dp" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:text="Você receberá uma notificação quando seu saldo for menor que 10 reais."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:text="Caso você não saiba o valor atual das tarifas, você pode consultar o botão informativo abaixo, ele mostra os preços das tarifas atuais e podem auxiliar suas contas."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/btn_tarifa_720"
+            android:layout_width="141dp"
+            android:layout_height="72dp" />
+
+        <Button
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_entendi"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="Entendi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>

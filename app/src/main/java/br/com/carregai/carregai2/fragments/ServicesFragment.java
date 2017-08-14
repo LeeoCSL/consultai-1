@@ -8,6 +8,7 @@ import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -51,6 +53,7 @@ public class ServicesFragment extends Fragment {
     public static final int GASTO_DIARIO = 0;
     public static final int VALOR_RECARGA = 1;
     public static final int DIAS_DA_SEMANA = 2;
+    private static final int COMO_USAR = 3;
 
     private TextView mDisplay;
 
@@ -80,6 +83,9 @@ public class ServicesFragment extends Fragment {
                     case DIAS_DA_SEMANA:
                         selectDays();
                         break;
+                    case COMO_USAR:
+                        comoFunciona();
+                        break;
                 }
             }
         });
@@ -101,8 +107,6 @@ public class ServicesFragment extends Fragment {
         mItens.add(new DashboardItem(R.drawable.ic_ajuda, "Como usar"));
         mItens.add(new DashboardItem(R.drawable.ic_vassoura, "Limpar dados"));
         mItens.add(new DashboardItem(R.drawable.metro_720, "Viagem extra"));
-        mItens.add(new DashboardItem(R.drawable.crop_image_menu_crop, "Title " + 6));
-        mItens.add(new DashboardItem(R.drawable.crop_image_menu_crop, "Title " + 6));
     }
 
     private void updateViews(){
@@ -189,6 +193,8 @@ public class ServicesFragment extends Fragment {
                 values.put("recarga_valor", String.valueOf(valorRecarga));
 
                 ref.push().setValue(values);
+
+                Utility.makeText(getActivity(), "Sua recarga foi atualizada.");
             }
         });
 
@@ -215,5 +221,21 @@ public class ServicesFragment extends Fragment {
         editor.putFloat(key, value);
 
         editor.commit();
+    }
+
+    private void comoFunciona() {
+        final Dialog dialog = new Dialog(getActivity());
+
+        dialog.setContentView(R.layout.tutorial);
+
+        Button btn = (Button) dialog.findViewById(R.id.btn_entendi);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
