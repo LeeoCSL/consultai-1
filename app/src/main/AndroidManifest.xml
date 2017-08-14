@@ -25,6 +25,10 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".activity.SettingsActivity"></activity>
+
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>

@@ -60,7 +60,6 @@ public class ServicesFragment extends Fragment {
     public ServicesFragment() {
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -101,12 +100,12 @@ public class ServicesFragment extends Fragment {
     private void getItensList() {
         mItens = new ArrayList<>();
 
-        mItens.add(new DashboardItem(R.drawable.ic_gasto_diario, "Gasto diário"));
-        mItens.add(new DashboardItem(R.drawable.dinheiro_480, "Valor de recarga"));
-        mItens.add(new DashboardItem(R.drawable.calendario2_480, "Dias de uso"));
-        mItens.add(new DashboardItem(R.drawable.ic_ajuda, "Como usar"));
+        mItens.add(new DashboardItem(R.drawable.cifrao, "Gasto diário"));
+        mItens.add(new DashboardItem(R.drawable.moeda, "Valor de recarga"));
+        mItens.add(new DashboardItem(R.drawable.calendario, "Dias de uso"));
+        mItens.add(new DashboardItem(R.drawable.interrogacao, "Como usar"));
         mItens.add(new DashboardItem(R.drawable.ic_vassoura, "Limpar dados"));
-        mItens.add(new DashboardItem(R.drawable.metro_720, "Viagem extra"));
+        mItens.add(new DashboardItem(R.drawable.bus, "Viagem extra"));
     }
 
     private void updateViews(){
