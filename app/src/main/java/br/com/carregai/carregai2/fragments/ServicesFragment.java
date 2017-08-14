@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +41,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by renan.boni on 09/08/2017.
@@ -54,6 +58,8 @@ public class ServicesFragment extends Fragment {
     public static final int VALOR_RECARGA = 1;
     public static final int DIAS_DA_SEMANA = 2;
     private static final int COMO_USAR = 3;
+    private static final int LIMPAR_CAMPOS = 4;
+    private static final int VIAGEM_EXTRA = 5;
 
     private TextView mDisplay;
 
@@ -85,6 +91,12 @@ public class ServicesFragment extends Fragment {
                         break;
                     case COMO_USAR:
                         comoFunciona();
+                        break;
+                    case VIAGEM_EXTRA:
+                        viagemExtra();
+                        break;
+                    case LIMPAR_CAMPOS:
+                        limparCampos();
                         break;
                 }
             }
@@ -237,5 +249,69 @@ public class ServicesFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    public void viagemExtra() {
+        Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + " ]");
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        float value = sharedPref.getFloat("viagem_extra", 0);
+
+        if (value == 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Configure o valor da viagem extra na barra de menu.")
+                    .setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create();
+        } else {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            float saldoAtual = sp.getFloat("saldo_atual", 0);
+
+            if (saldoAtual - value < 0) {
+                Utility.makeText(getActivity(), "Atualize seu saldo antes de calcular a viagem extra.");
+
+            } else if (saldoAtual - value >= 0) {
+                saldoAtual -= value;
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putFloat("saldo_atual", saldoAtual);
+                editor.commit();
+                mDisplay.setText("R$ " + String.format("%.2f", saldoAtual));
+                Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + value + " ]");
+
+            }
+        }
+    }
+
+    private void limparCampos() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        String value = "R$ 00,00";
+
+        editor.putFloat("valor_diario", 0);
+        editor.putFloat("valor_recarga", 0);
+        editor.putFloat("viagem_extra", 0);
+        editor.putFloat("saldo_atual", 0);
+
+//        mValorRecarga.setText(value);
+//        mValorDiario.setText(value);
+        mDisplay.setText(value);
+
+
+        final String[] items = {"Segunda-feira", "Terça-feira","Quarta-feira","Quinta-feira",
+                "Sexta-feira","Sábado","Domingo"};
+
+
+        for(int i = 0; i < items.length; i++){
+            String key = items[i].toLowerCase();
+            editor.putBoolean(key, false);
+        }
+
+        editor.commit();
+
     }
 }
