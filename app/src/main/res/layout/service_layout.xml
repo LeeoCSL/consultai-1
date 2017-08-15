@@ -12,11 +12,10 @@
         <TextView
             android:id="@+id/tv_seu_saldo"
             android:layout_below="@+id/appBarLayout"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="13dp"
             android:layout_marginTop="16dp"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:padding="8dp"
-            android:background="@drawable/dashboard_item_background"
             android:text="Seu Saldo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -29,7 +28,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:padding="8dp"
             android:background="@drawable/dashboard_blue_item_background"
             android:layout_below="@+id/tv_seu_saldo"

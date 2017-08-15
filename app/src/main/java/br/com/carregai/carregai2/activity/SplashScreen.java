@@ -9,13 +9,18 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import br.com.carregai.carregai2.R;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.util.LinkProperties;
+import com.appsee.Appsee;
 
 public class SplashScreen extends AppCompatActivity {
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private ImageView mLogoImage;
 
@@ -23,6 +28,8 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Appsee.start("b49552520cbf4838abed3cc2efc938f7");
 
         Branch branch = Branch.getInstance();
         branch.initSession(new Branch.BranchUniversalReferralInitListener() {
@@ -40,15 +47,15 @@ public class SplashScreen extends AppCompatActivity {
                         Origem = linkProperties.getChannel();
                     }
 
-                    //eventos firebase com as variaveis
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("Origem", Origem);
-//                    bundle.putString("Campanha", Campanha);
-//                    bundle.putString("email", LoginActivity.emailParam);
-//                    bundle.putString("linkFB", LoginActivity.linkFB);
-//                    bundle.putString("nome", LoginActivity.nomeFB);
-//                    bundle.putString("id", LoginActivity.idFacebook);
-//                    mFirebaseAnalytics.logEvent("Tracking", bundle);
+//                    eventos firebase com as variaveis
+                    Bundle bundle = new Bundle();
+                    bundle.putString("origem", Origem);
+                    bundle.putString("campanha", Campanha);
+                    bundle.putString("email", LoginActivity.emailParam);
+                    bundle.putString("link_fb", LoginActivity.linkFB);
+                    bundle.putString("nome", LoginActivity.nomeFB);
+                    bundle.putString("id", LoginActivity.idFacebook);
+                    mFirebaseAnalytics.logEvent("Tracking", bundle);
 
                 }
                 else {
