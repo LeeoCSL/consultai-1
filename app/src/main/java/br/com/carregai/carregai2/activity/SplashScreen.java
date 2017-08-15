@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import br.com.carregai.carregai2.R;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.util.LinkProperties;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -18,6 +23,39 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        Branch branch = Branch.getInstance();
+        branch.initSession(new Branch.BranchUniversalReferralInitListener() {
+            @Override
+            public void onInitFinished(BranchUniversalObject branchUniversalObject, LinkProperties linkProperties, BranchError error) {
+                if (error == null) {
+
+                    //variaveis que vão receber os parametros do link
+                    String Origem = "organico";
+                    String Campanha = "organico";
+
+                    // parametros "channel" e "campaign"
+                    if (linkProperties != null) {
+                        Campanha = linkProperties.getCampaign();
+                        Origem = linkProperties.getChannel();
+                    }
+
+                    //eventos firebase com as variaveis
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("Origem", Origem);
+//                    bundle.putString("Campanha", Campanha);
+//                    bundle.putString("email", LoginActivity.emailParam);
+//                    bundle.putString("linkFB", LoginActivity.linkFB);
+//                    bundle.putString("nome", LoginActivity.nomeFB);
+//                    bundle.putString("id", LoginActivity.idFacebook);
+//                    mFirebaseAnalytics.logEvent("Tracking", bundle);
+
+                }
+                else {
+                    Log.i("MyApp", error.getMessage());
+                }
+            }
+        }, this.getIntent().getData(), this);
 
         mLogoImage = (ImageView)findViewById(R.id.img_logo);
 
