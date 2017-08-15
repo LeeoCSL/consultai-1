@@ -1,6 +1,7 @@
 package br.com.carregai.carregai2;
 
 import android.app.Dialog;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -77,8 +78,10 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                             .setUpCustomerDrawer(MainActivity.this,
                                     usermodel.getName(),
                                     usermodel.getEmail(),
-                                    null,
+                                    Uri.parse(usermodel.getImage()),
                                     mToolbar).build();
+
+                    drawer.setOnDrawerItemClickListener(MainActivity.this);
                 }
 
                 @Override

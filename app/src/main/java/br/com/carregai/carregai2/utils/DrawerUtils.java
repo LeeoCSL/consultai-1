@@ -3,9 +3,12 @@ package br.com.carregai.carregai2.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -16,6 +19,9 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
@@ -58,6 +64,10 @@ public class DrawerUtils implements AccountHeader.OnAccountHeaderProfileImageLis
 
     @Override
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+
+
+
+
         return false;
     }
 
@@ -74,15 +84,11 @@ public class DrawerUtils implements AccountHeader.OnAccountHeaderProfileImageLis
                     activity.startActivity(new Intent(activity.getBaseContext(), MainActivity.class));
                 }
                 break;
-            case 2:
-                //     if (context.getClass() != PedidoActivity.class)
-                //       activity.startActivity(new Intent(activity.getBaseContext(), PedidoActivity.class));
-                break;
             case 3:
                 if (context.getClass() != SettingsActivity.class)
                     activity.startActivity(new Intent(activity.getBaseContext(), SettingsActivity.class));
                 break;
-            case 6:
+            case 2:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(activity.getBaseContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
