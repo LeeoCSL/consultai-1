@@ -1,6 +1,9 @@
 package br.com.carregai.carregai2;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -22,8 +25,12 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import br.com.carregai.carregai2.adapter.SectionPageAdapter;
 import br.com.carregai.carregai2.model.User;
+import br.com.carregai.carregai2.service.UpdatingService;
 import br.com.carregai.carregai2.utils.DrawerUtils;
 import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
@@ -103,5 +110,19 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         DrawerUtils.onUserClickListener(position, this, this);
         Utility.makeText(this, String.valueOf(position));
         return false;
+    }
+
+    public void trigger(){
+
+        Calendar calendar = (GregorianCalendar) Calendar.getInstance();
+
+        Intent myIntent = new Intent(MainActivity.this, UpdatingService.class);
+
+        PendingIntent pendingIntent = pendingIntent = PendingIntent.getService(MainActivity.this, 0,
+                myIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                30 * 1000, pendingIntent);
     }
 }

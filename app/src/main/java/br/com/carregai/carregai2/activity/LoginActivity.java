@@ -60,6 +60,13 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static String emailParam;
+    public static String emailGoogle;
+    public static String linkFB;
+    public static String nomeFB;
+    public static String idFacebook;
+    public static String emailFB;
+
     @BindView(R.id.input_email)
     EditText mLogin;
 

@@ -55,6 +55,10 @@
 
         <activity android:name=".activity.SettingsActivity"></activity>
 
+        <service
+            android:name=".service.UpdatingService"
+            android:enabled="true"/>
+
     </application>
 
 </manifest>

@@ -1,16 +1,21 @@
 package br.com.carregai.carregai2.fragments;
 
 
+import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
 import br.com.carregai.carregai2.model.DashboardItem;
+import br.com.carregai.carregai2.service.UpdatingService;
 import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -41,9 +46,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.Context.ALARM_SERVICE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -102,6 +109,9 @@ public class ServicesFragment extends Fragment {
                     case LIMPAR_CAMPOS:
                         limparCampos();
                         break;
+                    case 6:
+                        trigger();
+                        break;
                 }
             }
         });
@@ -123,6 +133,7 @@ public class ServicesFragment extends Fragment {
         mItens.add(new DashboardItem(R.drawable.interrogacao, "Como usar"));
         mItens.add(new DashboardItem(R.drawable.ic_vassoura, "Limpar dados"));
         mItens.add(new DashboardItem(R.drawable.bus, "Viagem extra"));
+        mItens.add(new DashboardItem(R.drawable.bus, "teste"));
     }
 
     private void updateViews() {
@@ -388,6 +399,8 @@ public class ServicesFragment extends Fragment {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
         Bundle bundle = new Bundle();
+
+
         if (LoginActivity.emailParam != "") {
             bundle.putString("email", LoginActivity.emailParam);
         }
@@ -407,7 +420,20 @@ public class ServicesFragment extends Fragment {
             bundle.putString("email_facebook", LoginActivity.emailFB);
         }
         mFirebaseAnalytics.logEvent("limpar_campos", bundle);
+    }
+    public void trigger(){
 
+        Utility.makeText(getActivity(), "servico");
 
+        Calendar calendar = (GregorianCalendar) Calendar.getInstance();
+
+        Intent myIntent = new Intent(getActivity(), UpdatingService.class);
+
+        PendingIntent pendingIntent = pendingIntent = PendingIntent.getService(getActivity(), 0,
+                myIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                30 * 1000, pendingIntent);
     }
 }
