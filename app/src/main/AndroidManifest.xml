@@ -55,27 +55,6 @@
 
         <activity android:name=".activity.SettingsActivity"></activity>
 
-        <!-- Branch init -->
-        <meta-data
-            android:name="io.branch.sdk.BranchKey"
-            android:value="key_live_kbAxZvkTd51oM9CgiMCBldjoywnA8Xzr" />
-        <meta-data
-            android:name="io.branch.sdk.BranchKey.test"
-            android:value="key_test_actEXFcLi01hP0rigNqypnleyEnCZWuI" />
-
-        <!-- Branch testing (TestMode "true" to simulate fresh installs on dev environment) -->
-        <meta-data
-            android:name="io.branch.sdk.TestMode"
-            android:value="false" />
-
-        <!-- Branch install referrer tracking -->
-        <receiver
-            android:name="io.branch.referral.InstallListener"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

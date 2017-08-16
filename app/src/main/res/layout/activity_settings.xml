@@ -15,9 +15,11 @@
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:src="@drawable/calendario2_480"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:onClick="toChangeImage"
+            android:id="@+id/cv_user_logo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/calendario2_480" />
 
         <LinearLayout
             android:layout_gravity="center_vertical"
@@ -40,14 +42,15 @@
     </LinearLayout>
 
     <View
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
     <RelativeLayout
         android:padding="8dp"
+        android:onClick="handlerViagemExtra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -66,8 +69,8 @@
     </RelativeLayout>
 
     <View
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
@@ -84,16 +87,17 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="R$ 20,00"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            android:id="@+id/tv_gasto_diario"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="R$ 20,00" />
     </RelativeLayout>
 
     <View
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
@@ -110,16 +114,17 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="R$ 20,00"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            android:id="@+id/tv_recarga"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="R$ 20,00" />
     </RelativeLayout>
 
     <View
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
@@ -136,10 +141,11 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="R$ 20,00"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            android:id="@+id/tv_saldo_atual"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="R$ 20,00" />
     </RelativeLayout>
 </LinearLayout>
