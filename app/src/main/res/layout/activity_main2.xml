@@ -10,12 +10,11 @@
     tools:context="br.com.carregai.carregai2.activity.Main2Activity">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/cv_user_logo"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="36dp"
-        android:src="@drawable/calendario" />
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/calendario"
+        android:layout_width="96dp"
+        android:layout_height="96dp" />
 
     <RelativeLayout
         android:padding="8dp"

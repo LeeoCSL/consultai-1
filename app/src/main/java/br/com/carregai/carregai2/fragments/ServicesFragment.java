@@ -168,9 +168,9 @@ public class ServicesFragment extends Fragment {
 
                 Utility.makeText(getActivity(), "O seu gasto diário foi salvo.");
 
-                Bundle bundle = new Bundle();
-                bundle.putFloat("valor_diario", saldo );
-                if (LoginActivity.emailParam != "") {
+            /*    Bundle bundle = new Bundle();
+                bundle.putFloat("valor_diario", saldo );*/
+/*                if (LoginActivity.emailParam != "") {
                     bundle.putString("email", LoginActivity.emailParam);
                 }
                 if (LoginActivity.emailGoogle != "") {
@@ -189,7 +189,7 @@ public class ServicesFragment extends Fragment {
                     bundle.putString("email_facebook", LoginActivity.emailFB);
                 }
 
-                mFirebaseAnalytics.logEvent("valor_diario", bundle);
+                mFirebaseAnalytics.logEvent("valor_diario", bundle);*/
 
             }
         });
@@ -248,7 +248,7 @@ public class ServicesFragment extends Fragment {
 
                 Utility.makeText(getActivity(), "Sua recarga foi atualizada.");
 
-                Bundle bundle = new Bundle();
+/*                Bundle bundle = new Bundle();
                 bundle.putFloat("valor_recarga",valorRecarga );
                 if (LoginActivity.emailParam != "") {
                     bundle.putString("email", LoginActivity.emailParam);
@@ -269,7 +269,7 @@ public class ServicesFragment extends Fragment {
                     bundle.putString("email_facebook", LoginActivity.emailFB);
                 }
 
-                mFirebaseAnalytics.logEvent("valor_recarga", bundle);
+                mFirebaseAnalytics.logEvent("valor_recarga", bundle);*/
             }
         });
 
@@ -344,7 +344,7 @@ public class ServicesFragment extends Fragment {
                 mDisplay.setText("R$ " + String.format("%.2f", saldoAtual));
                 Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + value + " ]");
 
-                Bundle bundle = new Bundle();
+/*                Bundle bundle = new Bundle();
                 if (LoginActivity.emailParam != "") {
                     bundle.putString("email", LoginActivity.emailParam);
                 }
@@ -363,7 +363,7 @@ public class ServicesFragment extends Fragment {
                 if (LoginActivity.emailFB != "") {
                     bundle.putString("email_facebook", LoginActivity.emailFB);
                 }
-                mFirebaseAnalytics.logEvent("viagem_extra", bundle);
+                mFirebaseAnalytics.logEvent("viagem_extra", bundle);*/
 
             }
         }
@@ -396,7 +396,7 @@ public class ServicesFragment extends Fragment {
         }
 
         editor.commit();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+/*        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
         Bundle bundle = new Bundle();
 
@@ -419,7 +419,7 @@ public class ServicesFragment extends Fragment {
         if (LoginActivity.emailFB != "") {
             bundle.putString("email_facebook", LoginActivity.emailFB);
         }
-        mFirebaseAnalytics.logEvent("limpar_campos", bundle);
+        mFirebaseAnalytics.logEvent("limpar_campos", bundle);*/
     }
     public void trigger(){
 

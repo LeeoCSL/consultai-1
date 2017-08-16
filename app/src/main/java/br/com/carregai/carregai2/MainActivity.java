@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
 
+        Log.i("ID USER", user.getUid());
+
         if(user != null){
             DatabaseReference child = userRef.child(user.getUid());
 
@@ -81,11 +83,13 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
                     Log.i("USER: ", usermodel.toString());
 
+                    FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+
                     Drawer drawer = new DrawerUtils()
                             .setUpCustomerDrawer(MainActivity.this,
                                     usermodel.getName(),
                                     usermodel.getEmail(),
-                                    Uri.parse(usermodel.getImage()),
+                                    mUser.getPhotoUrl(),
                                     mToolbar).build();
 
                     drawer.setOnDrawerItemClickListener(MainActivity.this);

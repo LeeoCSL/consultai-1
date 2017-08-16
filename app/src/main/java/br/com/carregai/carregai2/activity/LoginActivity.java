@@ -47,12 +47,15 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.model.User;
 import br.com.carregai.carregai2.utils.DialogUtils;
 import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
@@ -309,6 +312,18 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
 
                         DialogUtils.hideLoadingDialog();
+
+                        // AQUI
+                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+
+                        User user = new User();
+                        user.setEmail(authResult.getUser().getEmail());
+                        user.setName(authResult.getUser().getDisplayName());
+
+                        ref.setValue(user);
+
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

@@ -88,7 +88,7 @@ public class DrawerUtils implements AccountHeader.OnAccountHeaderProfileImageLis
                 if (context.getClass() != SettingsActivity.class)
                     activity.startActivity(new Intent(activity.getBaseContext(), SettingsActivity.class));
                 break;
-            case 2:
+            case 4:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(activity.getBaseContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

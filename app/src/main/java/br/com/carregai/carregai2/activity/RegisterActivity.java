@@ -1,5 +1,6 @@
 package br.com.carregai.carregai2.activity;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -21,10 +22,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -91,30 +95,44 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createUser(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    public void onSuccess(AuthResult authResult) {
+                        UserProfileChangeRequest profUpdate = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(userName)
+                                .setPhotoUri(Uri.parse("https://api.adorable.io/avatars/285/"
+                                        + userName + ".png"))
+                                .build();
 
-                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+                        authResult.getUser().updateProfile(profUpdate)
+                                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
 
-                            User user = new User();
-                            user.setEmail(userEmail);
-                            user.setName(userName);
+                                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                            ref.setValue(user);
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
 
-                            Bundle bundle = new Bundle();
-                            bundle.putString("email", LoginActivity.emailParam);
-                            mFirebaseAnalytics.logEvent("registro_ok", bundle);
+                                        User user = new User();
+                                        user.setEmail(userEmail);
+                                        user.setName(userName);
 
-                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                            finish();
-                        }else{
-                            Toast.makeText(RegisterActivity.this,  "Algum erro ocorreu. Tente novamente.", Toast.LENGTH_LONG).show();
-                        }
+                                        ref.setValue(user);
+
+                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(RegisterActivity.this,  "Algum erro ocorreu. Tente novamente.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
+
+
