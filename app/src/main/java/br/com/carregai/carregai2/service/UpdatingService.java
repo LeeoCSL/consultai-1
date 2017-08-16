@@ -12,7 +12,7 @@ import br.com.carregai.carregai2.utils.NotificationUtils;
  * Created by renan.boni on 16/08/2017.
  */
 
-public class UpdatingService extends WakefulIntentService {
+public class UpdatingService extends IntentService {
 
     public UpdatingService() {
         super("UpdatingService");
