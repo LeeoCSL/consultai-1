@@ -160,8 +160,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
 
-                mDialog.setTitle("Uploading image...");
-                mDialog.setMessage("Please wait while we uploand and process the image");
+                mDialog.setTitle("Aguarde...");
+                mDialog.setMessage("Estamos carregando a sua imagem.");
                 mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 

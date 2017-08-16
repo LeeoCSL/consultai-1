@@ -18,6 +18,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -103,6 +104,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 .setPhotoUri(Uri.parse("https://api.adorable.io/avatars/285/"
                                         + userName + ".png"))
                                 .build();
+
+                        Log.i("FOTO", "https://api.adorable.io/avatars/285/"
+                        + userName + ".png");
 
                         authResult.getUser().updateProfile(profUpdate)
                                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<Void>() {

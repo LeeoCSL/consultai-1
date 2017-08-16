@@ -11,11 +11,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/cv_user_logo"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="36dp"
-        android:src="@drawable/calendario" />
+        android:layout_gravity="center_horizontal"
+        android:onClick="toChangeImage"
+        android:src="@drawable/calendario"
+        android:layout_width="96dp"
+        android:layout_height="96dp" />
 
     <RelativeLayout
         android:padding="8dp"
@@ -26,6 +27,7 @@
 
         <TextView
             android:text="Viagem extra"
+            android:onClick="handlerViagemExtra"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -115,5 +117,4 @@
             android:layout_centerVertical="true"
             android:text="R$ 20,00" />
     </RelativeLayout>
-
 </LinearLayout>
