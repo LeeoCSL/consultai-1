@@ -65,7 +65,7 @@ public class RecargaRecyclerAdapter extends RecyclerView.Adapter<RecargaRecycler
             time = time.replace(":","h");
             time = time.concat("min");
 
-            date.setText(formattedDate + " " +time);
+            date.setText("Dia: " + formattedDate + " às " +time);
             value.setText(Utility.formatValue(Float.parseFloat(recarga.getValue())));
         }
     }

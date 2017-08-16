@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private FirebaseAuth mAuth;
 
@@ -83,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
         createUser(userEmail, userPassword);
+
     }
 
     private void createUser(String email, String password){
@@ -100,6 +104,10 @@ public class RegisterActivity extends AppCompatActivity {
                             user.setName(userName);
 
                             ref.setValue(user);
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString("email", LoginActivity.emailParam);
+                            mFirebaseAnalytics.logEvent("registro_ok", bundle);
 
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             finish();

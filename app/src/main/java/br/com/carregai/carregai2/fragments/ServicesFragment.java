@@ -2,6 +2,7 @@ package br.com.carregai.carregai2.fragments;
 
 
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
 import br.com.carregai.carregai2.model.DashboardItem;
 import br.com.carregai.carregai2.utils.Utility;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,6 +52,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ServicesFragment extends Fragment {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     private GridView mGridView;
     private DashboardGridViewAdapter mAdapter;
     private List<DashboardItem> mItens;
@@ -62,6 +66,7 @@ public class ServicesFragment extends Fragment {
     private static final int VIAGEM_EXTRA = 5;
 
     private TextView mDisplay;
+
 
     public ServicesFragment() {
     }
@@ -78,7 +83,7 @@ public class ServicesFragment extends Fragment {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i){
+                switch (i) {
                     case GASTO_DIARIO:
                         valorDiario();
                         break;
@@ -120,11 +125,12 @@ public class ServicesFragment extends Fragment {
         mItens.add(new DashboardItem(R.drawable.bus, "Viagem extra"));
     }
 
-    private void updateViews(){
+    private void updateViews() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         mDisplay.setText(Utility.formatValue(sp.getFloat("saldo_atual", 0)));
     }
+
     public void valorDiario() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -150,6 +156,30 @@ public class ServicesFragment extends Fragment {
                 storeValue("valor_diario", db);
 
                 Utility.makeText(getActivity(), "O seu gasto diário foi salvo.");
+
+                Bundle bundle = new Bundle();
+                bundle.putFloat("valor_diario", saldo );
+                if (LoginActivity.emailParam != "") {
+                    bundle.putString("email", LoginActivity.emailParam);
+                }
+                if (LoginActivity.emailGoogle != "") {
+                    bundle.putString("email_google", LoginActivity.emailGoogle);
+                }
+                if (LoginActivity.linkFB != "") {
+                    bundle.putString("link_fb", LoginActivity.linkFB);
+                }
+                if (LoginActivity.nomeFB != "") {
+                    bundle.putString("nome", LoginActivity.nomeFB);
+                }
+                if (LoginActivity.idFacebook != "") {
+                    bundle.putString("id", LoginActivity.idFacebook);
+                }
+                if (LoginActivity.emailFB != "") {
+                    bundle.putString("email_facebook", LoginActivity.emailFB);
+                }
+
+                mFirebaseAnalytics.logEvent("valor_diario", bundle);
+
             }
         });
 
@@ -206,6 +236,29 @@ public class ServicesFragment extends Fragment {
                 ref.push().setValue(values);
 
                 Utility.makeText(getActivity(), "Sua recarga foi atualizada.");
+
+                Bundle bundle = new Bundle();
+                bundle.putFloat("valor_recarga",valorRecarga );
+                if (LoginActivity.emailParam != "") {
+                    bundle.putString("email", LoginActivity.emailParam);
+                }
+                if (LoginActivity.emailGoogle != "") {
+                    bundle.putString("email_google", LoginActivity.emailGoogle);
+                }
+                if (LoginActivity.linkFB != "") {
+                    bundle.putString("link_fb", LoginActivity.linkFB);
+                }
+                if (LoginActivity.nomeFB != "") {
+                    bundle.putString("nome", LoginActivity.nomeFB);
+                }
+                if (LoginActivity.idFacebook != "") {
+                    bundle.putString("id", LoginActivity.idFacebook);
+                }
+                if (LoginActivity.emailFB != "") {
+                    bundle.putString("email_facebook", LoginActivity.emailFB);
+                }
+
+                mFirebaseAnalytics.logEvent("valor_recarga", bundle);
             }
         });
 
@@ -225,7 +278,7 @@ public class ServicesFragment extends Fragment {
         dialogWeek.show(fragmentManager, "dias_semana");
     }
 
-    private void storeValue(String key, float value){
+    private void storeValue(String key, float value) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -280,6 +333,27 @@ public class ServicesFragment extends Fragment {
                 mDisplay.setText("R$ " + String.format("%.2f", saldoAtual));
                 Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + value + " ]");
 
+                Bundle bundle = new Bundle();
+                if (LoginActivity.emailParam != "") {
+                    bundle.putString("email", LoginActivity.emailParam);
+                }
+                if (LoginActivity.emailGoogle != "") {
+                    bundle.putString("email_google", LoginActivity.emailGoogle);
+                }
+                if (LoginActivity.linkFB != "") {
+                    bundle.putString("link_fb", LoginActivity.linkFB);
+                }
+                if (LoginActivity.nomeFB != "") {
+                    bundle.putString("nome", LoginActivity.nomeFB);
+                }
+                if (LoginActivity.idFacebook != "") {
+                    bundle.putString("id", LoginActivity.idFacebook);
+                }
+                if (LoginActivity.emailFB != "") {
+                    bundle.putString("email_facebook", LoginActivity.emailFB);
+                }
+                mFirebaseAnalytics.logEvent("viagem_extra", bundle);
+
             }
         }
     }
@@ -301,16 +375,39 @@ public class ServicesFragment extends Fragment {
         mDisplay.setText(value);
 
 
-        final String[] items = {"Segunda-feira", "Terça-feira","Quarta-feira","Quinta-feira",
-                "Sexta-feira","Sábado","Domingo"};
+        final String[] items = {"Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira",
+                "Sexta-feira", "Sábado", "Domingo"};
 
 
-        for(int i = 0; i < items.length; i++){
+        for (int i = 0; i < items.length; i++) {
             String key = items[i].toLowerCase();
             editor.putBoolean(key, false);
         }
 
         editor.commit();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
+        Bundle bundle = new Bundle();
+        if (LoginActivity.emailParam != "") {
+            bundle.putString("email", LoginActivity.emailParam);
+        }
+        if (LoginActivity.emailGoogle != "") {
+            bundle.putString("email_google", LoginActivity.emailGoogle);
+        }
+        if (LoginActivity.linkFB != "") {
+            bundle.putString("link_fb", LoginActivity.linkFB);
+        }
+        if (LoginActivity.nomeFB != "") {
+            bundle.putString("nome", LoginActivity.nomeFB);
+        }
+        if (LoginActivity.idFacebook != "") {
+            bundle.putString("id", LoginActivity.idFacebook);
+        }
+        if (LoginActivity.emailFB != "") {
+            bundle.putString("email_facebook", LoginActivity.emailFB);
+        }
+        mFirebaseAnalytics.logEvent("limpar_campos", bundle);
+
 
     }
 }

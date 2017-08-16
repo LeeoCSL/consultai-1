@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginFacebook = (LoginButton)findViewById(R.id.login_fb);
         mGoogleLogin = (SignInButton)findViewById(R.id.login_google);
 
+
         if(mAuth.getCurrentUser() != null){
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -299,6 +300,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+
                         DialogUtils.hideLoadingDialog();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

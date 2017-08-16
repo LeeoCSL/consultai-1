@@ -36,6 +36,7 @@ dependencies {
         exclude module: 'support-annotations'
     }
     compile 'io.branch.sdk.android:library:2.+'
+    compile 'com.appsee:appsee-android:+'
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'

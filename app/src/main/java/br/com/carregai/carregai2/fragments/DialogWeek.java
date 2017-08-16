@@ -18,9 +18,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.Calendar;
 import java.util.Locale;
 
+import br.com.carregai.carregai2.activity.LoginActivity;
 
 
 public class DialogWeek extends DialogFragment {
@@ -28,8 +31,12 @@ public class DialogWeek extends DialogFragment {
     private TextView[] mDiasSemana;
     private boolean mCheckeds[];
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
         final String[] items = {"Segunda-feira", "Terça-feira","Quarta-feira","Quinta-feira",
                 "Sexta-feira","Sábado","Domingo"};
 
@@ -63,12 +70,15 @@ public class DialogWeek extends DialogFragment {
 
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
-
+                Bundle bundle = new Bundle();
                 for(int i = 0; i < items.length; i++){
+                    bundle.putBoolean(items[i].toLowerCase().replace('-','_'), mCheckeds[i]);
                     editor.putBoolean(items[i].toLowerCase(), mCheckeds[i]);
 
                     editor.commit();
                 }
+                bundle.putString("email", LoginActivity.emailParam);
+                mFirebaseAnalytics.logEvent("selecao_dias_semana", bundle);
                 dialog.dismiss();
             }
         });
