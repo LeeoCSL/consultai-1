@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    
+
     private FirebaseAuth mAuth;
 
     @BindView(R.id.input_login_register)

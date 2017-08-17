@@ -1,5 +1,6 @@
 package br.com.carregai.carregai2.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ public class OrdersFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<Recarga> mRecargas = new ArrayList<>();
     private RecargaRecyclerAdapter adapter;
+
 
     public OrdersFragment() {
     }

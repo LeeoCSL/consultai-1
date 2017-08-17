@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,9 @@ public class ServicesFragment extends Fragment {
 
     private TextView mDisplay;
 
+    private int[] mDrawables = {R.drawable.comum, R.drawable.integracao_360, R.drawable.estudante};
+
+    private int currentIndex = 0;
 
     public ServicesFragment() {
     }
@@ -113,10 +117,25 @@ public class ServicesFragment extends Fragment {
                     case 6:
                         trigger();
                         break;
+                    case 7:
+                        changeView(view);
+                        break;
                 }
             }
         });
         return view;
+    }
+
+    private void changeView(View v) {
+
+        ImageView imageView = (ImageView) v.findViewById(R.id.grid_item_image);
+
+        if(currentIndex > mDrawables.length - 1){
+            currentIndex = 0;
+        }
+
+        imageView.setImageResource(mDrawables[currentIndex]);
+        currentIndex++;
     }
 
     @Override
@@ -134,7 +153,8 @@ public class ServicesFragment extends Fragment {
         mItens.add(new DashboardItem(R.drawable.interrogacao, "Como usar"));
         mItens.add(new DashboardItem(R.drawable.ic_vassoura, "Limpar dados"));
         mItens.add(new DashboardItem(R.drawable.bus, "Viagem extra"));
-        mItens.add(new DashboardItem(R.drawable.bus, "teste"));
+        mItens.add(new DashboardItem(R.drawable.cino, "Alarme"));
+        mItens.add(new DashboardItem(R.drawable.comum, "Tarifação"));
     }
 
     private void updateViews() {
@@ -315,7 +335,8 @@ public class ServicesFragment extends Fragment {
         dialog.show();
     }
 
-    public void viagemExtra() {
+
+    /*public void viagemExtra() {
         Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + " ]");
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -330,6 +351,72 @@ public class ServicesFragment extends Fragment {
                         }
                     });
             builder.create();
+        } else {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            float saldoAtual = sp.getFloat("saldo_atual", 0);
+
+            if (saldoAtual - value < 0) {
+                Utility.makeText(getActivity(), "Atualize seu saldo antes de calcular a viagem extra.");
+
+            } else if (saldoAtual - value >= 0) {
+                saldoAtual -= value;
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putFloat("saldo_atual", saldoAtual);
+                editor.commit();
+                mDisplay.setText("R$ " + String.format("%.2f", saldoAtual));
+                Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + value + " ]");
+
+*//*                Bundle bundle = new Bundle();
+                if (LoginActivity.emailParam != "") {
+                    bundle.putString("email", LoginActivity.emailParam);
+                }
+                if (LoginActivity.emailGoogle != "") {
+                    bundle.putString("email_google", LoginActivity.emailGoogle);
+                }
+                if (LoginActivity.linkFB != "") {
+                    bundle.putString("link_fb", LoginActivity.linkFB);
+                }
+                if (LoginActivity.nomeFB != "") {
+                    bundle.putString("nome", LoginActivity.nomeFB);
+                }
+                if (LoginActivity.idFacebook != "") {
+                    bundle.putString("id", LoginActivity.idFacebook);
+                }
+                if (LoginActivity.emailFB != "") {
+                    bundle.putString("email_facebook", LoginActivity.emailFB);
+                }
+                mFirebaseAnalytics.logEvent("viagem_extra", bundle);*//*
+
+            }
+        }
+    }*/
+
+    public void viagemExtra() {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        float value = sharedPref.getFloat("viagem_extra", 0);
+        Log.d("SF", Float.toString(value));
+        if (value == 0.0) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Configure o valor da viagem extra nas configurações")
+                    .setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.setNegativeButton("", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create();
+            builder.show();
+
+
         } else {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             float saldoAtual = sp.getFloat("saldo_atual", 0);
@@ -369,8 +456,7 @@ public class ServicesFragment extends Fragment {
             }
         }
     }
-
-    private void limparCampos() {
+    /*private void limparCampos() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -397,11 +483,83 @@ public class ServicesFragment extends Fragment {
         }
 
         editor.commit();
-/*        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+*//*        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
         Bundle bundle = new Bundle();
 
 
+        if (LoginActivity.emailParam != "") {
+            bundle.putString("email", LoginActivity.emailParam);
+        }
+        if (LoginActivity.emailGoogle != "") {
+            bundle.putString("email_google", LoginActivity.emailGoogle);
+        }
+        if (LoginActivity.linkFB != "") {
+            bundle.putString("link_fb", LoginActivity.linkFB);
+        }
+        if (LoginActivity.nomeFB != "") {
+            bundle.putString("nome", LoginActivity.nomeFB);
+        }
+        if (LoginActivity.idFacebook != "") {
+            bundle.putString("id", LoginActivity.idFacebook);
+        }
+        if (LoginActivity.emailFB != "") {
+            bundle.putString("email_facebook", LoginActivity.emailFB);
+        }
+        mFirebaseAnalytics.logEvent("limpar_campos", bundle);*//*
+    }*/
+    private void limparCampos() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Limpar campos");
+        builder.setMessage("Você tem certeza que deseja limpar os campos?");
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                String value = "R$ 00,00";
+
+                editor.putFloat("valor_diario", 0);
+                editor.putFloat("valor_recarga", 0);
+                editor.putFloat("viagem_extra", 0);
+                editor.putFloat("saldo_atual", 0);
+
+//        mValorRecarga.setText(value);
+//        mValorDiario.setText(value);
+                mDisplay.setText(value);
+
+
+                final String[] items = {"Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira",
+                        "Sexta-feira", "Sábado", "Domingo"};
+
+
+                for (int i = 0; i < items.length; i++) {
+                    String key = items[i].toLowerCase();
+                    editor.putBoolean(key, false);
+                }
+
+                editor.commit();
+
+                Utility.makeText(getActivity(), "Seus dados foram limpos");
+
+            }
+        });
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+/*        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        Bundle bundle = new Bundle();
         if (LoginActivity.emailParam != "") {
             bundle.putString("email", LoginActivity.emailParam);
         }

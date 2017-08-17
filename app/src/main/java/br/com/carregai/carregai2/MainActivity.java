@@ -141,9 +141,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
                     editor.commit();
 
-                    String userID2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("users").child(userID2).child("recargas");
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
                     Date data = new Date();
 

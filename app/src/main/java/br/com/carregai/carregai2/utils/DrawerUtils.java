@@ -48,13 +48,13 @@ public class DrawerUtils implements AccountHeader.OnAccountHeaderProfileImageLis
                     .withAccountHeader(header)
                     .addDrawerItems(
                             new PrimaryDrawerItem().withName("Home")
-                                    .withIcon(R.drawable.ic_home_black).withSelectedIcon(R.drawable.ic_home_accent),
+                                    .withIcon(R.drawable.ic_home_black),
 
                             new DividerDrawerItem(),
                             new SecondaryDrawerItem().withName("Configurações")
                                     .withIcon(R.drawable.ic_config),
                             new SecondaryDrawerItem().withName("Sair")
-                                    .withIcon(R.drawable.ic_exit).withSelectedIcon(R.drawable.ic_exit_accent));
+                                    .withIcon(R.drawable.ic_exit));
                     ;
             return customerDrawer;
         } else {
