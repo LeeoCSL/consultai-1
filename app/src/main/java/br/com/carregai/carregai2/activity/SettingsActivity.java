@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -103,11 +104,21 @@ public class SettingsActivity extends AppCompatActivity {
                 String image = dataSnapshot.child("image").getValue(String.class);
 
                 if(image != null){
+                    Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
+                    builder.listener(new Picasso.Listener() {
+                        @Override
+                        public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                            mImageView.setImageResource(R.drawable.ic_avatar);
+                        }
+                    });
+                    builder.downloader(new OkHttpDownloader(getApplicationContext()));
+                    builder.build().load(image).into(mImageView);
+
+/*
                     Picasso.with(getApplicationContext()).
                             load(image).
-                            into(mImageView);
+                            into(mImageView);*/
                 }
-
             }
 
             @Override
@@ -115,8 +126,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void handlerViagemExtra(View v){

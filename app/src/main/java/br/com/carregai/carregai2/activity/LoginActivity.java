@@ -357,7 +357,7 @@ public class LoginActivity extends AppCompatActivity {
                         User user = new User();
                         user.setEmail(authResult.getUser().getEmail());
                         user.setName(authResult.getUser().getDisplayName());
-                        user.setImage("http://graph.facebook.com/" +token.getUserId()+"/picture?type=small");
+                        user.setImage("https://graph.facebook.com/" +token.getUserId()+"/picture?type=small");
 
                         ref.setValue(user);
 
