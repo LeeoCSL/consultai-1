@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         if(firstTime){
 
+            trigger();
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Configurações iniciais");
             builder.setMessage("Antes de começar, configure o valor do seu saldo agora, nas" +
@@ -180,15 +182,20 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     public void trigger(){
 
-        Calendar calendar = (GregorianCalendar) Calendar.getInstance();
+        Intent myIntent = new Intent(this, UpdatingService.class);
 
-        Intent myIntent = new Intent(MainActivity.this, UpdatingService.class);
-
-        PendingIntent pendingIntent = pendingIntent = PendingIntent.getService(MainActivity.this, 0,
+        PendingIntent pendingIntent = pendingIntent = PendingIntent.getService(this, 0,
                 myIntent, 0);
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-                30 * 1000, pendingIntent);
+        Calendar calendar = (GregorianCalendar) Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 45);
+        calendar.set(Calendar.SECOND, 00);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent);
     }
 }

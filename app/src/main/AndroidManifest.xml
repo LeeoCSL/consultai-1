@@ -61,6 +61,10 @@
             android:name=".service.UpdatingService"
             android:enabled="true" />
 
+        <service
+            android:name=".service.NotificationService"
+            android:enabled="true"/>
+
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

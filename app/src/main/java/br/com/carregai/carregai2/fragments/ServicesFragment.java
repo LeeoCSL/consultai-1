@@ -19,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
@@ -115,7 +117,7 @@ public class ServicesFragment extends Fragment {
                         limparCampos();
                         break;
                     case 6:
-                        trigger();
+                        setTimer();
                         break;
                     case 7:
                         changeView(view);
@@ -124,6 +126,48 @@ public class ServicesFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void setTimer(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Horário da notificação");
+        builder.setMessage("Escolha o horário em que você deseja receber notificação de saldo baixo");
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        final TimePicker timePicker = new TimePicker(getApplicationContext());
+        timePicker.setIs24HourView(true);
+        timePicker.setHour(sp.getInt("notification_hour", 0));
+        timePicker.setMinute(sp.getInt("notification_minute", 0));
+
+        builder.setView(timePicker);
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int hour = timePicker.getCurrentHour();
+                int min = timePicker.getCurrentMinute();
+
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = sp.edit();
+
+                editor.putInt("notification_hour", hour);
+                editor.putInt("notification_minute", min);
+
+                editor.commit();
+
+                Utility.makeText(getContext(), "Você receberá uma notificação às " +hour+ "h" +min+ "min quando seu saldo estiver baixo.");
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
     }
 
     private void changeView(View v) {
@@ -580,19 +624,5 @@ public class ServicesFragment extends Fragment {
         }
         mFirebaseAnalytics.logEvent("limpar_campos", bundle);*/
     }
-    public void trigger(){
 
-        Utility.makeText(getActivity(), "servico");
-
-        Calendar calendar = (GregorianCalendar) Calendar.getInstance();
-
-        Intent myIntent = new Intent(getActivity(), UpdatingService.class);
-
-        PendingIntent pendingIntent = pendingIntent = PendingIntent.getService(getActivity(), 0,
-                myIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-                30 * 1000, pendingIntent);
-    }
 }
