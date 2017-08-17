@@ -49,8 +49,11 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -252,15 +255,12 @@ public class LoginActivity extends AppCompatActivity {
         loginWithEmailAndPassword();
     }
 
-    private void loginWithEmailAndPassword() {
+/*    private void loginWithEmailAndPassword() {
         mAuth.signInWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -269,6 +269,40 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 });
+    }*/
+
+    private void loginWithEmailAndPassword() {
+        DialogUtils.loadingDialog(this);
+        mAuth.signInWithEmailAndPassword(userEmail, userPassword)
+                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+
+                    }
+                }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                DialogUtils.hideLoadingDialog();
+                if (e.getClass() == FirebaseAuthUserCollisionException.class) {
+                    Utility.makeText(LoginActivity.this,
+                            "Email já está sendo usado em uma conta do facebook.");
+                    return;
+                }
+                if (e.getClass() == FirebaseAuthInvalidUserException.class) {
+                    Utility.makeText(LoginActivity.this,
+                            "Usuário não encontrado.");
+                    return;
+                }
+                if (e.getClass() == FirebaseAuthInvalidCredentialsException.class) {
+                    mPassword.setError("Senha inválida");
+                    return;
+                } else {
+                    Utility.makeText(LoginActivity.this,
+                            "Erro ao fazer login, tente novamente mais tarde.");
+                }
+                e.printStackTrace();
+            }
+        });
     }
 
     public void handlerLogin(View v){
