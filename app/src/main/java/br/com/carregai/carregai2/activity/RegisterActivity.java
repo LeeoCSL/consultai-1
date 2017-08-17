@@ -1,27 +1,14 @@
 package br.com.carregai.carregai2.activity;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import br.com.carregai.carregai2.MainActivity;
-import br.com.carregai.carregai2.R;
-import br.com.carregai.carregai2.model.User;
-import br.com.carregai.carregai2.utils.Utility;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
-import id.zelory.compressor.Compressor;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,28 +19,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
+import br.com.carregai.carregai2.MainActivity;
+import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.model.User;
+import br.com.carregai.carregai2.utils.Utility;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-
-    private static final int GALLERY_PICK = 1;
-
+    
     private FirebaseAuth mAuth;
 
     @BindView(R.id.input_login_register)
@@ -65,21 +43,13 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.input_name_register)
     TextInputLayout mName;
 
-    @BindView(R.id.logo_register)
-    CircleImageView mLogo;
-
-    private Uri mUri;
-    private String downloadURL;
-
-    private String userName, userEmail, userPassword;
-
     private ProgressDialog mDialog;
 
-    private StorageReference mImageStorage;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
-    private DatabaseReference mUserDatabase;
+    SharedPreferences sharedPref;
 
-    private FirebaseUser mCurrentUser;
+    private String userName, userEmail, userPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,41 +58,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-    }
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-    public void toChangeImage(View v){
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-    }
+        mAuth = FirebaseAuth.getInstance();
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        mDialog = new ProgressDialog(this);
 
-        if (requestCode == GALLERY_PICK && resultCode == RESULT_OK) {
-
-            Uri imageURI = data.getData();
-
-            CropImage.activity(imageURI)
-                    .setAspectRatio(1, 1)
-                    .start(this);
-        }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-
-            if (resultCode == RESULT_OK) {
-
-                final Uri resultUri = result.getUri();
-                mUri = resultUri;
-
-                Picasso.with(getApplicationContext()).
-                        load(resultUri).
-                        into(mLogo);
-            }
-        }
+        mEmail = (TextInputLayout)findViewById(R.id.input_login_register);
+        mPassword = (TextInputLayout)findViewById(R.id.input_password_register);
     }
 
     public void handlerLogin(View v){
@@ -164,12 +109,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        if (mUri != null) {
-                            UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-                                    .setPhotoUri(mUri).build();
-                            authResult.getUser().updateProfile(request);
-                        }
-
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
 
                         User user = new User();
@@ -190,6 +129,5 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 }
-
-
