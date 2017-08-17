@@ -3,10 +3,14 @@ package br.com.carregai.carregai2;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +30,11 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import br.com.carregai.carregai2.adapter.SectionPageAdapter;
 import br.com.carregai.carregai2.model.User;
@@ -57,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     private Drawer mDrawer;
 
+    private boolean firstTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        firstTime = sharedPref.getBoolean("first_time", true);
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
@@ -83,13 +96,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
                     Log.i("USER: ", usermodel.toString());
 
-                    FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-
                     Drawer drawer = new DrawerUtils()
                             .setUpCustomerDrawer(MainActivity.this,
                                     usermodel.getName(),
                                     usermodel.getEmail(),
-                                    mUser.getPhotoUrl(),
+                                    user.getPhotoUrl(),
                                     mToolbar).build();
 
                     drawer.setOnDrawerItemClickListener(MainActivity.this);
@@ -106,6 +117,60 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         mViewPager.setAdapter(mAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
+
+        if(firstTime){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Configurações iniciais");
+            builder.setMessage("Antes de começar, configure o valor do seu saldo agora, nas" +
+                    " próximas vezes você pode clicar no botão de recarga no menu principal.");
+
+            final CurrencyEditText currencyEditText = new CurrencyEditText(this, null);
+            builder.setView(currencyEditText);
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putFloat("valor_recarga", Utility.stringToFloat(currencyEditText.getText().toString()));
+                    editor.putBoolean("first_time", false);
+
+                    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users")
+                            .child(userID).child("recargas");
+
+                    editor.commit();
+
+                    String userID2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("users").child(userID2).child("recargas");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
+                    Date data = new Date();
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(data);
+                    Date dataAtual = cal.getTime();
+                    String dataCompleta = dateFormat.format(dataAtual);
+
+                    HashMap<String, String> values = new HashMap<String, String>();
+                    values.put("recarga_horario", dataCompleta);
+                    values.put("recarga_valor", String.valueOf(Utility.stringToFloat(currencyEditText.getText().toString())));
+
+                    ref.push().setValue(values);
+                }
+            });
+
+            builder.setNegativeButton("Faço isso depois.", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("first_time", false);
+                    editor.commit();
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+        }
     }
 
 

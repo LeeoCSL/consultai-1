@@ -9,14 +9,25 @@
     android:layout_height="match_parent"
     tools:context="br.com.carregai.carregai2.activity.Main2Activity">
 
+    <include
+        android:id="@+id/settings_toolbar"
+        layout="@layout/toolbar"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/cv_user_logo"
         android:layout_marginTop="36dp"
         android:layout_gravity="center_horizontal"
         android:onClick="toChangeImage"
-        android:src="@drawable/calendario"
-        android:layout_width="96dp"
-        android:layout_height="96dp" />
+        android:src="@drawable/ic_avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <TextView
+        android:text="Clique no avatar para alterar sua imagem."
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:padding="8dp"

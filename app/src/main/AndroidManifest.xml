@@ -53,7 +53,9 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activity.SettingsActivity" />
+        <activity
+            android:parentActivityName=".MainActivity"
+            android:name=".activity.SettingsActivity" />
 
         <service
             android:name=".service.UpdatingService"

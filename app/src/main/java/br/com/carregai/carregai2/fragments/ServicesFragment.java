@@ -6,6 +6,7 @@ import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
 import br.com.carregai.carregai2.model.DashboardItem;
+import br.com.carregai.carregai2.model.Recarga;
 import br.com.carregai.carregai2.service.UpdatingService;
 import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;

@@ -46,7 +46,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -284,13 +286,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAcessToken(loginResult.getAccessToken());
-
             }
 
             @Override
             public void onCancel() {
-
-
             }
 
             @Override
@@ -301,8 +300,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void handleFacebookAcessToken(AccessToken token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+    private void handleFacebookAcessToken(final AccessToken token) {
+        final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
 
         DialogUtils.loadingDialog(this);
 
@@ -321,6 +320,7 @@ public class LoginActivity extends AppCompatActivity {
                         User user = new User();
                         user.setEmail(authResult.getUser().getEmail());
                         user.setName(authResult.getUser().getDisplayName());
+                        user.setImage("http://graph.facebook.com/" +token.getUserId()+"/picture?type=small");
 
                         ref.setValue(user);
 
@@ -362,7 +362,6 @@ public class LoginActivity extends AppCompatActivity {
 
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
                 DialogUtils.hideLoadingDialog();

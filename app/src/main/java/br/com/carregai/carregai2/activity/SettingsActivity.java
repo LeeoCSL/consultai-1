@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +62,9 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.tv_gasto_diario)
     TextView mGastoDiario;
 
+    @BindView(R.id.settings_toolbar)
+    Toolbar mToolbar;
+
     private ProgressDialog mDialog;
 
     private StorageReference mImageStorage;
@@ -73,6 +78,10 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Configurações");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mDialog = new ProgressDialog(this);
 
@@ -93,9 +102,12 @@ public class SettingsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String image = dataSnapshot.child("image").getValue(String.class);
 
-                Picasso.with(getApplicationContext()).
-                        load(image).
-                        into(mImageView);
+                if(image != null){
+                    Picasso.with(getApplicationContext()).
+                            load(image).
+                            into(mImageView);
+                }
+
             }
 
             @Override
@@ -167,6 +179,11 @@ public class SettingsActivity extends AppCompatActivity {
 
                 Uri resultUri = result.getUri();
 
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                        .setPhotoUri(resultUri).build();
+                user.updateProfile(request);
+
                 String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 final File thumbFilePath = new File(resultUri.getPath());
@@ -223,12 +240,12 @@ public class SettingsActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 mDialog.dismiss();
-                                                Toast.makeText(getApplicationContext(), "Success uploading.", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext(), "Sua imagem foi salva.", Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     });
                         } else {
-                            Toast.makeText(getApplicationContext(), "Error in uploading.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Erro ao salvar sua imagem.", Toast.LENGTH_LONG).show();
                             mDialog.dismiss();
                         }
                     }
