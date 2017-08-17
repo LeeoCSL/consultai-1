@@ -3,6 +3,7 @@ package br.com.carregai.carregai2.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -110,6 +112,14 @@ public class RegisterActivity extends AppCompatActivity {
                         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+
+                        UserProfileChangeRequest profUpdate = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(authResult.getUser().getDisplayName())
+                                .setPhotoUri(Uri.parse("https://api.adorable.io/avatars/285/"
+                                        + authResult.getUser().getDisplayName() + ".png"))
+                                .build();
+
+                        authResult.getUser().updateProfile(profUpdate);
 
                         User user = new User();
                         user.setEmail(userEmail);

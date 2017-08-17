@@ -137,7 +137,7 @@ public class ServicesFragment extends Fragment {
 
         final TimePicker timePicker = new TimePicker(getApplicationContext());
         timePicker.setIs24HourView(true);
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             timePicker.setHour(sp.getInt("notification_hour", 0));
         }

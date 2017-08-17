@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -90,6 +91,7 @@ public class DrawerUtils implements AccountHeader.OnAccountHeaderProfileImageLis
                 break;
             case 4:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 Intent intent = new Intent(activity.getBaseContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 activity.startActivity(intent);

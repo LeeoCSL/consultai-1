@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -278,6 +279,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
 
+
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
             @Override
@@ -345,6 +347,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
 
                         DialogUtils.hideLoadingDialog();
+
 
                         // AQUI
                         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
