@@ -3,6 +3,7 @@ package br.com.carregai.carregai2.fragments;
 
 import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.activity.ComoUsarActivity;
 import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
 import br.com.carregai.carregai2.model.DashboardItem;
@@ -77,7 +78,7 @@ public class ServicesFragment extends Fragment {
     private static final int LIMPAR_CAMPOS = 4;
     private static final int VIAGEM_EXTRA = 5;
 
-    private TextView mDisplay;
+    public static TextView mDisplay;
 
     private int[] mDrawables = {R.drawable.comum, R.drawable.integracao_360, R.drawable.estudante};
 
@@ -89,6 +90,8 @@ public class ServicesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
 
         getItensList();
         View view = inflater.inflate(R.layout.service_layout, container, false);
@@ -126,6 +129,8 @@ public class ServicesFragment extends Fragment {
                 }
             }
         });
+
+
         return view;
     }
 
@@ -137,6 +142,7 @@ public class ServicesFragment extends Fragment {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         final TimePicker timePicker = new TimePicker(getApplicationContext());
+
         timePicker.setIs24HourView(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -375,7 +381,7 @@ public class ServicesFragment extends Fragment {
     }
 
     private void comoFunciona() {
-        final Dialog dialog = new Dialog(getActivity());
+/*        final Dialog dialog = new Dialog(getActivity());
 
         dialog.setContentView(R.layout.tutorial);
 
@@ -388,7 +394,8 @@ public class ServicesFragment extends Fragment {
         });
         Bundle bundle = new Bundle();
         mFirebaseAnalytics.logEvent("como_funciona", bundle);
-        dialog.show();
+        dialog.show();*/
+        startActivity(new Intent(getActivity(), ComoUsarActivity.class));
     }
 
 
@@ -478,8 +485,7 @@ public class ServicesFragment extends Fragment {
             float saldoAtual = sp.getFloat("saldo_atual", 0);
 
             if (saldoAtual - value < 0) {
-                Utility.makeText(getActivity(), "Atualize seu saldo antes de calcular a viagem extra.");
-
+                Utility.makeText(getActivity(), "Atualize o valor de sua recarga antes de calcular a viagem extra.");
             } else if (saldoAtual - value >= 0) {
                 saldoAtual -= value;
                 SharedPreferences.Editor editor = sp.edit();
@@ -508,7 +514,6 @@ public class ServicesFragment extends Fragment {
                     bundle.putString("email_facebook", LoginActivity.emailFB);
                 }
                 mFirebaseAnalytics.logEvent("viagem_extra", bundle);
-
             }
         }
     }
@@ -579,7 +584,7 @@ public class ServicesFragment extends Fragment {
 
                 SharedPreferences.Editor editor = sharedPref.edit();
 
-                String value = "R$ 00,00";
+                String value = "R$ 0,00";
 
                 editor.putFloat("valor_diario", 0);
                 editor.putFloat("valor_recarga", 0);
@@ -613,8 +618,7 @@ public class ServicesFragment extends Fragment {
             }
         });
 
-        builder.show();
-/*        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
         Bundle bundle = new Bundle();
         if (LoginActivity.emailParam != "") {
             bundle.putString("email", LoginActivity.emailParam);
@@ -634,7 +638,8 @@ public class ServicesFragment extends Fragment {
         if (LoginActivity.emailFB != "") {
             bundle.putString("email_facebook", LoginActivity.emailFB);
         }
-        mFirebaseAnalytics.logEvent("limpar_campos", bundle);*/
-    }
+        mFirebaseAnalytics.logEvent("limpar_campos", bundle);
 
+        builder.show();
+    }
 }

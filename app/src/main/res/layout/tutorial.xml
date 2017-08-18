@@ -1,99 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    tools:context="br.com.carregai.carregai2.activity.ComoUsarActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/btn_entendi">
 
-        <TextView
-            android:layout_gravity="center_horizontal"
-            android:text="Como funciona?"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:layout_gravity="center_horizontal"
-            android:text="1. Configure o valor da sua recarga no botão azul."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/btn_valor_recarga_720"
-            android:layout_width="141dp"
-            android:layout_height="72dp" />
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:layout_gravity="center_horizontal"
-            android:text="2. No botão Gasto Diário, informe o total que você gasta todos os dias com transporte."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/btn_gasto_720"
-            android:layout_width="141dp"
-            android:layout_height="72dp" />
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:layout_gravity="center_horizontal"
-            android:text="3. Clique no botão Dias de Uso e selecione todos os dias em que você utiliza seu bilhete único."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/btn_dias_uso_720"
-            android:layout_width="141dp"
-            android:layout_height="72dp" />
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:layout_gravity="center_horizontal"
-            android:text="Você receberá uma notificação quando seu saldo for menor que 10 reais."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:layout_gravity="center_horizontal"
-            android:text="Caso você não saiba o valor atual das tarifas, você pode consultar o botão informativo abaixo, ele mostra os preços das tarifas atuais e podem auxiliar suas contas."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/btn_tarifa_720"
-            android:layout_width="141dp"
-            android:layout_height="72dp" />
-
-        <Button
-            android:layout_marginTop="16dp"
-            android:id="@+id/btn_entendi"
-            android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:text="Entendi"
+        <LinearLayout
+            android:id="@+id/layout_titulo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/layout_tutorial_titulo"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:text="É muito simples!"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_tutorial"
+            android:layout_margin="2dp">
+
+                <ImageView
+                    android:src="@drawable/um"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Configure o valor do seu gasto diário"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icon_1_360" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_2"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_tutorial"
+            android:layout_margin="2dp"
+            >
+            <ImageView
+                android:src="@drawable/dois"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Atualize o valor sempre que realizar uma recarga"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icons2_360"
+
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_3"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_tutorial"
+            android:layout_margin="2dp">
+            <ImageView
+                android:src="@drawable/tres"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Escolha os dias em que utiliza o bilhete único"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icon_3_360"
+
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_4"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_tutorial"
+            android:layout_margin="2dp">
+            <ImageView
+                android:src="@drawable/quatro"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adicione uma viagem extra, se necessário"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icon_4_360" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_5"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_tutorial"
+            android:layout_margin="2dp">
+            <ImageView
+                android:src="@drawable/cinco"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Você receberá uma notificação quando seu saldo for menor que R$10,00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icon_5_360" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_6"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_tutorial"
+            android:layout_margin="2dp">
+            <ImageView
+                android:src="@drawable/seis"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consulte o valor das tarifas atuais, neste botão ajuda a auxiliar suas contas"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icon_6_360" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-</ScrollView>
+
+    <Button
+        android:text="Entendi"
+        android:id="@+id/btn_entendi"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

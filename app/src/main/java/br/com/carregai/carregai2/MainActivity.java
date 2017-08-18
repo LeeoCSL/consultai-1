@@ -26,9 +26,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,7 +38,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import br.com.carregai.carregai2.activity.SettingsActivity;
 import br.com.carregai.carregai2.adapter.SectionPageAdapter;
+import br.com.carregai.carregai2.fragments.ServicesFragment;
 import br.com.carregai.carregai2.model.User;
 import br.com.carregai.carregai2.service.UpdatingService;
 import br.com.carregai.carregai2.utils.DrawerUtils;
@@ -44,7 +48,7 @@ import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener{
+public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderProfileImageListener{
 
     public static final String SERVICES_FRAGMENT = "Serviços";
     public static final String ORDERS_FRAGMENT = "Recargas";
@@ -101,7 +105,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                                     usermodel.getName(),
                                     usermodel.getEmail(),
                                     user.getPhotoUrl(),
-                                    mToolbar).build();
+                                    mToolbar,
+                                    MainActivity.this).build();
 
                     drawer.setOnDrawerItemClickListener(MainActivity.this);
                 }
@@ -142,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                             .child(userID).child("recargas");
 
                     editor.commit();
+                    ServicesFragment.mDisplay.setText("R$ " + String.format("%.2f", Utility.stringToFloat(currencyEditText.getText().toString())));
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
                     Date data = new Date();
@@ -176,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         DrawerUtils.onUserClickListener(position, this, this);
-
         return false;
     }
 
@@ -197,5 +202,16 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent);
+    }
+
+    @Override
+    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+        startActivity(new Intent(this, SettingsActivity.class));
+        return true;
+    }
+
+    @Override
+    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+        return false;
     }
 }

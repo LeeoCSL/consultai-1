@@ -54,6 +54,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            app:passwordToggleEnabled="true"
             android:layout_marginTop="4dp"
             android:id="@+id/input_password_register"
             android:layout_width="match_parent"

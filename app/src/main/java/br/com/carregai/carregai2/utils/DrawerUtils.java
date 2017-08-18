@@ -29,16 +29,16 @@ import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.activity.SettingsActivity;
 
-public class DrawerUtils implements AccountHeader.OnAccountHeaderProfileImageListener {
+public class DrawerUtils {
     private DrawerBuilder customerDrawer;
 
     public DrawerBuilder setUpCustomerDrawer
-            (Activity activity, String userName, String userAddress, Uri userPhotoUrl, Toolbar toolbar) {
+            (Activity activity, String userName, String userAddress, Uri userPhotoUrl, Toolbar toolbar, AccountHeader.OnAccountHeaderProfileImageListener headerListener) {
 
         if (customerDrawer == null) {
             AccountHeader header = new AccountHeaderBuilder()
                     .withActivity(activity)
-                    .withOnAccountHeaderProfileImageListener(this)
+                    .withOnAccountHeaderProfileImageListener(headerListener)
                     .addProfiles(new ProfileDrawerItem()
                             .withIcon(userPhotoUrl)
                             .withName(userName).withEmail(userAddress)).build();
@@ -63,19 +63,6 @@ public class DrawerUtils implements AccountHeader.OnAccountHeaderProfileImageLis
         }
     }
 
-    @Override
-    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-
-
-
-
-        return false;
-    }
-
-    @Override
-    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-        return false;
-    }
 
     public static void onUserClickListener(int position, final Context context, final Activity activity) {
 

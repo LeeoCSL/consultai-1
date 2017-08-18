@@ -16,4 +16,6 @@
     <color name="dark_grey">#535353</color>
     <!-- MaterialDrawer DEFAULT colors -->
     <color name="material_drawer_header_selection_text">#3b5998</color>
+
+    <color name="azul_claro">#CADEFA</color>
 </resources>

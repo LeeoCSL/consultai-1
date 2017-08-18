@@ -7,9 +7,9 @@ android {
         applicationId "br.com.carregai.carregai2"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 5
+        versionCode 6
         multiDexEnabled = true
-        versionName "5.0"
+        versionName "6.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -63,6 +63,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
 
 
 

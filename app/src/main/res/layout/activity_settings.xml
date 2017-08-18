@@ -18,12 +18,13 @@
         android:layout_marginTop="36dp"
         android:layout_gravity="center_horizontal"
         android:onClick="toChangeImage"
-        android:src="@drawable/ic_avatar"
+        android:src="@drawable/icon_pessoa"
         android:layout_width="100dp"
         android:layout_height="100dp" />
 
     <TextView
         android:text="Clique no avatar para alterar sua imagem."
+        android:layout_marginTop="16dp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
