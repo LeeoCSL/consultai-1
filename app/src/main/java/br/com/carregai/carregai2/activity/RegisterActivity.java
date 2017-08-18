@@ -127,6 +127,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                         ref.setValue(user);
 
+                        Bundle bundle  = new Bundle();
+                        bundle.putString("email", userEmail);
+                        bundle.putString("nome", userName);
+                        mFirebaseAnalytics.logEvent("cadastro_ok", bundle);
+
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

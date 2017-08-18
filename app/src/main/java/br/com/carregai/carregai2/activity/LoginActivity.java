@@ -24,6 +24,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String nomeFB;
     public static String idFacebook;
     public static String emailFB;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
     @BindView(R.id.input_email)
     EditText mLogin;
 
@@ -98,12 +99,13 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private String userEmail, userPassword;
-
+private ProgressDialog mDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+mDialog = new ProgressDialog(this);
         ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -127,8 +129,8 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-     /*   GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("")
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -148,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 signIn();
             }
-        });*/
+        });
     }
 
     @Override
@@ -167,13 +169,35 @@ public class LoginActivity extends AppCompatActivity {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(AuthResult authResult) {
+                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+
+                        UserProfileChangeRequest profUpdate = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(authResult.getUser().getDisplayName())
+                                .setPhotoUri(Uri.parse("https://api.adorable.io/avatars/285/"
+                                        + authResult.getUser().getDisplayName() + ".png"))
+                                .build();
+
+                        authResult.getUser().updateProfile(profUpdate);
+
+                        User user = new User();
+                        user.setEmail(authResult.getUser().getEmail());
+                        user.setName(authResult.getUser().getDisplayName());
+
+                        ref.setValue(user);
+
+                        Bundle bundle  = new Bundle();
+                        bundle.putString("email_google", user.getEmail());
+                        mFirebaseAnalytics.logEvent("login_google_ok", bundle);
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
                     }
                 });
 
@@ -219,6 +243,9 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("email", userEmail);
+                        mFirebaseAnalytics.logEvent("reset_senha_ok", bundle);
                         DialogUtils.hideLoadingDialog();
                         Toast.makeText(LoginActivity.this, "Acabamos de te enviar as instruções de como recuperar sua conta.", Toast.LENGTH_LONG).show();
                     }
@@ -227,12 +254,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 DialogUtils.hideLoadingDialog();
                 if (e.getClass() == FirebaseAuthInvalidUserException.class) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", userEmail);
+                    mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
                     Toast.makeText(LoginActivity.this,
                             "Usuário não encontrado", Toast.LENGTH_LONG).show();
 
                     return;
                 }
                 if (e.getClass() == FirebaseException.class) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", userEmail);
+                    mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
                     Toast.makeText(LoginActivity.this,
                             "Email inválido", Toast.LENGTH_LONG).show();
                 }
@@ -274,10 +307,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginWithEmailAndPassword() {
         DialogUtils.loadingDialog(this);
+        mDialog.setTitle("Entrando");
+        mDialog.setMessage("Por favor, espere enquanto fazemos o login");
+        mDialog.show();
+        mDialog.setCanceledOnTouchOutside(false);
         mAuth.signInWithEmailAndPassword(userEmail, userPassword)
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("email", userEmail);
+                        mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
 
                     }
@@ -302,6 +342,9 @@ public class LoginActivity extends AppCompatActivity {
                     Utility.makeText(LoginActivity.this,
                             "Erro ao fazer login, tente novamente mais tarde.");
                 }
+                Bundle bundle = new Bundle();
+                bundle.putString("email", userEmail);
+                mFirebaseAnalytics.logEvent("login_email_erro", bundle);
                 e.printStackTrace();
             }
         });
@@ -321,15 +364,32 @@ public class LoginActivity extends AppCompatActivity {
         mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                Profile profile = Profile.getCurrentProfile();
+                String nomeFB = profile.getName();
+                Bundle bundle = new Bundle();
+                bundle.putString("nome_facebook", nomeFB);
+                bundle.putString("email_facebook", userEmail);
+                mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
+
                 handleFacebookAcessToken(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("email", userEmail);
+                mFirebaseAnalytics.logEvent("login_facebook_canelado", bundle);
             }
 
             @Override
             public void onError(FacebookException error) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("email", userEmail);
+                mFirebaseAnalytics.logEvent("login_facebook_erro", bundle);
+
                 Toast.makeText(LoginActivity.this, "Erro: " +error.toString(), Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }

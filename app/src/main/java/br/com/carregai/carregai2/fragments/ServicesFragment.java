@@ -12,6 +12,7 @@ import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -161,6 +162,9 @@ public class ServicesFragment extends Fragment {
 
                 editor.commit();
 
+                Bundle bundle = new Bundle();
+//                bundle.putString("email", LoginActivity.userEmail);
+                mFirebaseAnalytics.logEvent("configurar_notificacao", bundle);
                 Utility.makeText(getContext(), "Você receberá uma notificação às " +hour+ "h" +min+ "min quando seu saldo estiver baixo.");
             }
         });
@@ -238,9 +242,9 @@ public class ServicesFragment extends Fragment {
 
                 Utility.makeText(getActivity(), "O seu gasto diário foi salvo.");
 
-            /*    Bundle bundle = new Bundle();
-                bundle.putFloat("valor_diario", saldo );*/
-/*                if (LoginActivity.emailParam != "") {
+                Bundle bundle = new Bundle();
+                bundle.putFloat("valor_diario", saldo );
+               if (LoginActivity.emailParam != "") {
                     bundle.putString("email", LoginActivity.emailParam);
                 }
                 if (LoginActivity.emailGoogle != "") {
@@ -259,7 +263,7 @@ public class ServicesFragment extends Fragment {
                     bundle.putString("email_facebook", LoginActivity.emailFB);
                 }
 
-                mFirebaseAnalytics.logEvent("valor_diario", bundle);*/
+                mFirebaseAnalytics.logEvent("valor_diario", bundle);
 
             }
         });
@@ -318,7 +322,7 @@ public class ServicesFragment extends Fragment {
 
                 Utility.makeText(getActivity(), "Sua recarga foi atualizada.");
 
-/*                Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putFloat("valor_recarga",valorRecarga );
                 if (LoginActivity.emailParam != "") {
                     bundle.putString("email", LoginActivity.emailParam);
@@ -339,7 +343,7 @@ public class ServicesFragment extends Fragment {
                     bundle.putString("email_facebook", LoginActivity.emailFB);
                 }
 
-                mFirebaseAnalytics.logEvent("valor_recarga", bundle);*/
+                mFirebaseAnalytics.logEvent("valor_recarga", bundle);
             }
         });
 
@@ -357,6 +361,8 @@ public class ServicesFragment extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         DialogWeek dialogWeek = new DialogWeek();
         dialogWeek.show(fragmentManager, "dias_semana");
+
+
     }
 
     private void storeValue(String key, float value) {
@@ -380,7 +386,8 @@ public class ServicesFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-
+        Bundle bundle = new Bundle();
+        mFirebaseAnalytics.logEvent("como_funciona", bundle);
         dialog.show();
     }
 
@@ -481,7 +488,7 @@ public class ServicesFragment extends Fragment {
                 mDisplay.setText("R$ " + String.format("%.2f", saldoAtual));
                 Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + value + " ]");
 
-/*                Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 if (LoginActivity.emailParam != "") {
                     bundle.putString("email", LoginActivity.emailParam);
                 }
@@ -500,7 +507,7 @@ public class ServicesFragment extends Fragment {
                 if (LoginActivity.emailFB != "") {
                     bundle.putString("email_facebook", LoginActivity.emailFB);
                 }
-                mFirebaseAnalytics.logEvent("viagem_extra", bundle);*/
+                mFirebaseAnalytics.logEvent("viagem_extra", bundle);
 
             }
         }

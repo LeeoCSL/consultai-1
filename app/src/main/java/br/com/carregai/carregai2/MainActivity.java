@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         DrawerUtils.onUserClickListener(position, this, this);
-        Utility.makeText(this, String.valueOf(position));
+
         return false;
     }
 
