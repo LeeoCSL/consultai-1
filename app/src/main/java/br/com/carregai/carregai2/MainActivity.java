@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putFloat("valor_recarga", Utility.stringToFloat(currencyEditText.getText().toString()));
+                    editor.putFloat("saldo_atual", Utility.stringToFloat(currencyEditText.getText().toString()));
                     editor.putBoolean("first_time", false);
 
                     String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -191,15 +191,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 myIntent, 0);
 
         Calendar calendar = (GregorianCalendar) Calendar.getInstance();
-/*        calendar.set(Calendar.HOUR_OF_DAY, 9);
-        calendar.set(Calendar.MINUTE, 42);
-        calendar.set(Calendar.SECOND, 00);*/
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 45);
+        calendar.set(Calendar.SECOND, 00);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(),
-                60 * 1000,
+                AlarmManager.INTERVAL_DAY,
                 pendingIntent);
     }
 

@@ -58,13 +58,13 @@ public class UpdatingService extends IntentService {
                 break;
         }
 
-        float saldoAtualp = sharedPref.getFloat("saldo_atual", 0);
-        float valorDiariop = sharedPref.getFloat("valor_diario", 0);
+/*        float saldoAtualp = sharedPref.getFloat("saldo_atual", 0);
+        float valorDiariop = sharedPref.getFloat("valor_diario", 0);*/
 
-        Log.i("Saldo_Atual", ""+saldoAtualp);
+     /*   Log.i("Saldo_Atual", ""+saldoAtualp);
         Log.i("Valor_Diario", ""+valorDiariop);
         Log.i("Dia_Atual", ""+currentDay+ " Ativo: " +sharedPref.getBoolean(currentDay, false));
-
+*/
 
         if(sharedPref.getBoolean(currentDay, false)){
 

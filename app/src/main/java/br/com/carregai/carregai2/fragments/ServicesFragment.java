@@ -270,7 +270,7 @@ public class ServicesFragment extends Fragment {
         final float saldo = sp.getFloat("saldo_atual", 0);
 
         final CurrencyEditText input = new CurrencyEditText(getActivity(), null);
-        input.setText(Utility.formatValue(sp.getFloat("valor_recarga", 0)));
+        input.setText(Utility.formatValue(saldo));
         builder.setView(input);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
