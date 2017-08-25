@@ -93,5 +93,4 @@
 
         <activity android:name=".activity.ComoUsarActivity"></activity>
     </application>
-
 </manifest>

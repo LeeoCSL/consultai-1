@@ -35,38 +35,73 @@ public class UpdatingService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-
         Calendar calendar = Calendar.getInstance();
         String currentDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplication());
 
-        float saldoAtual = sharedPref.getFloat("saldo_atual", 0);
-        float valorDiario = sharedPref.getFloat("valor_diario", 0);
+        switch (currentDay){
+            case "segunda":
+                currentDay = "segunda-feira";
+                break;
+            case "terça":
+                currentDay = "terça-feira";
+                break;
+            case "quarta":
+                currentDay = "quarta-feira";
+                break;
+            case "quinta":
+                currentDay = "quinta-feira";
+                break;
+            case "sexta":
+                currentDay = "sexta-feira";
+                break;
+        }
+
+        float saldoAtualp = sharedPref.getFloat("saldo_atual", 0);
+        float valorDiariop = sharedPref.getFloat("valor_diario", 0);
+
+        Log.i("Saldo_Atual", ""+saldoAtualp);
+        Log.i("Valor_Diario", ""+valorDiariop);
+        Log.i("Dia_Atual", ""+currentDay+ " Ativo: " +sharedPref.getBoolean(currentDay, false));
+
 
         if(sharedPref.getBoolean(currentDay, false)){
+
+            float saldoAtual = sharedPref.getFloat("saldo_atual", 0);
+            float valorDiario = sharedPref.getFloat("valor_diario", 0);
+
             if(saldoAtual - valorDiario > 0){
+
+                Log.i("Saldo_atual", ""+saldoAtual);
+                Log.i("Valor_diario", ""+valorDiario);
+
                 saldoAtual -= valorDiario;
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putFloat("saldo_atual", saldoAtual);
                 editor.commit();
-            }else if(saldoAtual < 10){
+            }
+            if(saldoAtual < 10){
                 int hour = sharedPref.getInt("notification_hour", 22);
-                int min = sharedPref.getInt("notification_minute", 0);
+                int min = sharedPref.getInt("notification_minute", 45);
 
-                Calendar cal = (GregorianCalendar) Calendar.getInstance();
-                cal.add(Calendar.HOUR, hour);
-                cal.add(Calendar.MINUTE, min);
+
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, min);
+                cal.set(Calendar.SECOND, 00);
+
 
                 Intent myIntent = new Intent(this, NotificationService.class);
 
                 PendingIntent pendingIntent = pendingIntent = PendingIntent.getService(this, 0,
                         myIntent, 0);
 
-                Date date = cal.getTime();
-
                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                        cal.getTimeInMillis(),
+                        AlarmManager.INTERVAL_HALF_DAY,
+                        pendingIntent);
             }
         }
     }

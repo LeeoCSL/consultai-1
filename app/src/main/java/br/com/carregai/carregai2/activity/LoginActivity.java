@@ -380,7 +380,7 @@ mDialog = new ProgressDialog(this);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("email", userEmail);
-                mFirebaseAnalytics.logEvent("login_facebook_canelado", bundle);
+                mFirebaseAnalytics.logEvent("login_facebook_cancelado", bundle);
             }
 
             @Override
@@ -408,8 +408,6 @@ mDialog = new ProgressDialog(this);
 
                         DialogUtils.hideLoadingDialog();
 
-
-                        // AQUI
                         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
@@ -418,6 +416,17 @@ mDialog = new ProgressDialog(this);
                         user.setEmail(authResult.getUser().getEmail());
                         user.setName(authResult.getUser().getDisplayName());
                         user.setImage("https://graph.facebook.com/" +token.getUserId()+"/picture?type=small");
+
+
+                        Profile currentProfile = Profile.getCurrentProfile();
+                        Uri profilePictureUri = currentProfile.getProfilePictureUri(32, 32);
+
+                        FirebaseUser firebaUser = FirebaseAuth.getInstance().getCurrentUser();
+                        UserProfileChangeRequest req = new UserProfileChangeRequest.Builder()
+                                .setPhotoUri(profilePictureUri).build();
+
+
+                        firebaUser.updateProfile(req);
 
                         ref.setValue(user);
 

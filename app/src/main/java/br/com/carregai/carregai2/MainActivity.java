@@ -87,8 +87,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        Log.i("ID USER", user.getUid());
-
         if(user != null){
             DatabaseReference child = userRef.child(user.getUid());
 
@@ -124,8 +122,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         mTabLayout.setupWithViewPager(mViewPager);
 
         if(firstTime){
-
-            trigger();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Configurações iniciais");
@@ -175,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 }
             });
             builder.show();
+
+            trigger();
         }
     }
 
@@ -193,14 +191,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 myIntent, 0);
 
         Calendar calendar = (GregorianCalendar) Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 22);
-        calendar.set(Calendar.MINUTE, 45);
-        calendar.set(Calendar.SECOND, 00);
+/*        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 42);
+        calendar.set(Calendar.SECOND, 00);*/
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
+                60 * 1000,
                 pendingIntent);
     }
 

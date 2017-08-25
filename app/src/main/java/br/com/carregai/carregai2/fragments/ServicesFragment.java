@@ -17,6 +17,7 @@ import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +33,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -48,6 +50,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormatSymbols;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +59,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -129,60 +134,33 @@ public class ServicesFragment extends Fragment {
                 }
             }
         });
-
-
         return view;
     }
 
+
     private void setTimer(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Horário da notificação");
-        builder.setMessage("Escolha o horário em que você deseja receber notificação de saldo baixo");
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final Calendar calendar = Calendar.getInstance();
 
-        final TimePicker timePicker = new TimePicker(getApplicationContext());
+        final int hour = sp.getInt("notification_hour", 0);
+        final int min = sp.getInt("notification_minute", 0);
 
-        timePicker.setIs24HourView(true);
+        calendar.set(Calendar.YEAR, Calendar.MONTH, Calendar.DATE, hour, min);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            timePicker.setHour(sp.getInt("notification_hour", 0));
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            timePicker.setMinute(sp.getInt("notification_minute", 0));
-        }
-
-        builder.setView(timePicker);
-
-        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+        TimePickerDialog dialog = new TimePickerDialog(getActivity(), 0, new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                int hour = timePicker.getCurrentHour();
-                int min = timePicker.getCurrentMinute();
-
-                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 SharedPreferences.Editor editor = sp.edit();
 
-                editor.putInt("notification_hour", hour);
-                editor.putInt("notification_minute", min);
+                editor.putInt("notification_hour", hourOfDay);
+                editor.putInt("notification_minute", minute);
 
                 editor.commit();
-
-                Bundle bundle = new Bundle();
-//                bundle.putString("email", LoginActivity.userEmail);
-                mFirebaseAnalytics.logEvent("configurar_notificacao", bundle);
-                Utility.makeText(getContext(), "Você receberá uma notificação às " +hour+ "h" +min+ "min quando seu saldo estiver baixo.");
             }
-        });
+        }, hour, min, true);
 
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.show();
+        dialog.show();
     }
 
     private void changeView(View v) {
@@ -381,78 +359,16 @@ public class ServicesFragment extends Fragment {
     }
 
     private void comoFunciona() {
-/*        final Dialog dialog = new Dialog(getActivity());
+        Calendar calendar = Calendar.getInstance();
+        String currentDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
 
-        dialog.setContentView(R.layout.tutorial);
+        String dia = new DateFormatSymbols().getWeekdays()[calendar.get(Calendar.DAY_OF_WEEK)];
+        Format formatter = new SimpleDateFormat("EEEE");
+        String s = formatter.format(new Date());
 
-        Button btn = (Button) dialog.findViewById(R.id.btn_entendi);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        Bundle bundle = new Bundle();
-        mFirebaseAnalytics.logEvent("como_funciona", bundle);
-        dialog.show();*/
         startActivity(new Intent(getActivity(), ComoUsarActivity.class));
     }
 
-
-    /*public void viagemExtra() {
-        Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + " ]");
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        float value = sharedPref.getFloat("viagem_extra", 0);
-
-        if (value == 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Configure o valor da viagem extra na barra de menu.")
-                    .setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-            builder.create();
-        } else {
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            float saldoAtual = sp.getFloat("saldo_atual", 0);
-
-            if (saldoAtual - value < 0) {
-                Utility.makeText(getActivity(), "Atualize seu saldo antes de calcular a viagem extra.");
-
-            } else if (saldoAtual - value >= 0) {
-                saldoAtual -= value;
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putFloat("saldo_atual", saldoAtual);
-                editor.commit();
-                mDisplay.setText("R$ " + String.format("%.2f", saldoAtual));
-                Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + value + " ]");
-
-*//*                Bundle bundle = new Bundle();
-                if (LoginActivity.emailParam != "") {
-                    bundle.putString("email", LoginActivity.emailParam);
-                }
-                if (LoginActivity.emailGoogle != "") {
-                    bundle.putString("email_google", LoginActivity.emailGoogle);
-                }
-                if (LoginActivity.linkFB != "") {
-                    bundle.putString("link_fb", LoginActivity.linkFB);
-                }
-                if (LoginActivity.nomeFB != "") {
-                    bundle.putString("nome", LoginActivity.nomeFB);
-                }
-                if (LoginActivity.idFacebook != "") {
-                    bundle.putString("id", LoginActivity.idFacebook);
-                }
-                if (LoginActivity.emailFB != "") {
-                    bundle.putString("email_facebook", LoginActivity.emailFB);
-                }
-                mFirebaseAnalytics.logEvent("viagem_extra", bundle);*//*
-
-            }
-        }
-    }*/
 
     public void viagemExtra() {
 
@@ -517,58 +433,7 @@ public class ServicesFragment extends Fragment {
             }
         }
     }
-    /*private void limparCampos() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        String value = "R$ 00,00";
-
-        editor.putFloat("valor_diario", 0);
-        editor.putFloat("valor_recarga", 0);
-        editor.putFloat("viagem_extra", 0);
-        editor.putFloat("saldo_atual", 0);
-
-//        mValorRecarga.setText(value);
-//        mValorDiario.setText(value);
-        mDisplay.setText(value);
-
-
-        final String[] items = {"Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira",
-                "Sexta-feira", "Sábado", "Domingo"};
-
-
-        for (int i = 0; i < items.length; i++) {
-            String key = items[i].toLowerCase();
-            editor.putBoolean(key, false);
-        }
-
-        editor.commit();
-*//*        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-
-        Bundle bundle = new Bundle();
-
-
-        if (LoginActivity.emailParam != "") {
-            bundle.putString("email", LoginActivity.emailParam);
-        }
-        if (LoginActivity.emailGoogle != "") {
-            bundle.putString("email_google", LoginActivity.emailGoogle);
-        }
-        if (LoginActivity.linkFB != "") {
-            bundle.putString("link_fb", LoginActivity.linkFB);
-        }
-        if (LoginActivity.nomeFB != "") {
-            bundle.putString("nome", LoginActivity.nomeFB);
-        }
-        if (LoginActivity.idFacebook != "") {
-            bundle.putString("id", LoginActivity.idFacebook);
-        }
-        if (LoginActivity.emailFB != "") {
-            bundle.putString("email_facebook", LoginActivity.emailFB);
-        }
-        mFirebaseAnalytics.logEvent("limpar_campos", bundle);*//*
-    }*/
     private void limparCampos() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -591,10 +456,7 @@ public class ServicesFragment extends Fragment {
                 editor.putFloat("viagem_extra", 0);
                 editor.putFloat("saldo_atual", 0);
 
-//        mValorRecarga.setText(value);
-//        mValorDiario.setText(value);
                 mDisplay.setText(value);
-
 
                 final String[] items = {"Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira",
                         "Sexta-feira", "Sábado", "Domingo"};

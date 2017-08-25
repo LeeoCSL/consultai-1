@@ -72,9 +72,8 @@ public class DialogWeek extends DialogFragment {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 Bundle bundle = new Bundle();
                 for(int i = 0; i < items.length; i++){
-                    bundle.putBoolean(items[i].toLowerCase().replace('-','_'), mCheckeds[i]);
+                    bundle.putBoolean(items[i].toLowerCase(), mCheckeds[i]);
                     editor.putBoolean(items[i].toLowerCase(), mCheckeds[i]);
-
                     editor.commit();
                 }
                 bundle.putString("email", LoginActivity.emailParam);

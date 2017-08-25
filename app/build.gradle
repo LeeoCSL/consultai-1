@@ -5,8 +5,8 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "br.com.carregai.carregai2"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 19
+        targetSdkVersion 20
         versionCode 6
         multiDexEnabled = true
         versionName "6.0"
