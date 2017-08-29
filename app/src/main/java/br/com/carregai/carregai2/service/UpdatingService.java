@@ -98,7 +98,8 @@ public class UpdatingService extends IntentService {
                         myIntent, 0);
 
                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                alarmManager.setRepeating(
+                        AlarmManager.RTC_WAKEUP,
                         cal.getTimeInMillis(),
                         AlarmManager.INTERVAL_HALF_DAY,
                         pendingIntent);
