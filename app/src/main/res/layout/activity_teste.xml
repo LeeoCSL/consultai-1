@@ -9,7 +9,6 @@
     tools:context="br.com.carregai.carregai2.activity.Teste">
 
     <ImageView
-        android:id="@+id/iv_background"
         android:src="@drawable/bk_1"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
@@ -103,68 +102,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <FrameLayout
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.facebook.login.widget.LoginButton
-                    android:id="@+id/login_fb"
-                    android:visibility="gone"
+                <ImageView
+                    android:src="@drawable/logo_face"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+
+                <TextView
+                    android:text="Continuar com o Facebook"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/md_white_1000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:src="@drawable/logo_face"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp" />
-
-                    <TextView
-                        android:text="Continuar com o Facebook"
-                        android:layout_marginLeft="8dp"
-                        android:textColor="@color/md_white_1000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </FrameLayout>
-
-            <FrameLayout
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.google.android.gms.common.SignInButton
-                    android:id="@+id/login_google"
-                    android:visibility="gone"
+                <ImageView
+                    android:src="@drawable/logo_google"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+
+                <TextView
+                    android:text="Continuar com o Google"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/md_white_1000"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </com.google.android.gms.common.SignInButton>
-
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_marginRight="9dp"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:src="@drawable/logo_google"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp" />
-
-                    <TextView
-                        android:text="Continuar com o Google"
-                        android:layout_marginLeft="8dp"
-                        android:textColor="@color/md_white_1000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </FrameLayout>
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

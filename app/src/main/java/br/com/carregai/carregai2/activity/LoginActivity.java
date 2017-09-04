@@ -3,6 +3,11 @@ package br.com.carregai.carregai2.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -83,6 +88,9 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.input_password)
     EditText mPassword;
 
+    @BindView(R.id.iv_background)
+    ImageView mBackgroundImage;
+
     private FirebaseAuth mAuth;
 
     private LoginButton mLoginFacebook;
@@ -99,14 +107,26 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private String userEmail, userPassword;
-private ProgressDialog mDialog;
+    private ProgressDialog mDialog;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-mDialog = new ProgressDialog(this);
+        mDialog = new ProgressDialog(this);
         ButterKnife.bind(this);
+
+        Drawable[] layers = new Drawable[3];
+        Resources res = getResources();
+        layers[0] = res.getDrawable(R.drawable.bk_1);
+        layers[1] = res.getDrawable(R.drawable.bk_2_720);
+        layers[2] = res.getDrawable(R.drawable.bk_3_720);
+
+        TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
+        mBackgroundImage.setImageDrawable(transitionDrawable);
+        transitionDrawable.startTransition(2000);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -288,22 +308,6 @@ mDialog = new ProgressDialog(this);
         }
         loginWithEmailAndPassword();
     }
-
-/*    private void loginWithEmailAndPassword() {
-        mAuth.signInWithEmailAndPassword(userEmail, userPassword)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-    }*/
 
     private void loginWithEmailAndPassword() {
         DialogUtils.loadingDialog(this);

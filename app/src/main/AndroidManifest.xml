@@ -91,6 +91,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.ComoUsarActivity"></activity>
+        <activity android:name=".activity.ComoUsarActivity" />
+        <activity android:name=".activity.Teste"></activity>
     </application>
+
 </manifest>

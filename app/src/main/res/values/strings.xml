@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CarregaI2</string>
+    <string name="app_name">ConsultAí</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="facebook_app_id">107174253284031</string>
     <string name="fb_login_protocol_scheme">fb107174253284031</string>
@@ -10,7 +10,6 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
-
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 

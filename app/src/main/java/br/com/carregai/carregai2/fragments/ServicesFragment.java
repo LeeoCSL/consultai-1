@@ -267,7 +267,7 @@ public class ServicesFragment extends Fragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Valor Recarga");
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final float saldo = sp.getFloat("saldo_atual", 0);
+        final float saldo = sp.getFloat("valor_recarga", 0);
 
         final CurrencyEditText input = new CurrencyEditText(getActivity(), null);
         input.setText(Utility.formatValue(saldo));

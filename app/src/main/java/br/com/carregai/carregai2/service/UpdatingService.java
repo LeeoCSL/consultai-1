@@ -9,10 +9,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.utils.NotificationUtils;
 
 /**
@@ -32,9 +36,13 @@ public class UpdatingService extends IntentService {
         super("UpdatingService");
     }
 
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+
         Calendar calendar = Calendar.getInstance();
         String currentDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
 
@@ -58,14 +66,6 @@ public class UpdatingService extends IntentService {
                 break;
         }
 
-/*        float saldoAtualp = sharedPref.getFloat("saldo_atual", 0);
-        float valorDiariop = sharedPref.getFloat("valor_diario", 0);*/
-
-     /*   Log.i("Saldo_Atual", ""+saldoAtualp);
-        Log.i("Valor_Diario", ""+valorDiariop);
-        Log.i("Dia_Atual", ""+currentDay+ " Ativo: " +sharedPref.getBoolean(currentDay, false));
-*/
-
         if(sharedPref.getBoolean(currentDay, false)){
 
             float saldoAtual = sharedPref.getFloat("saldo_atual", 0);
@@ -80,6 +80,17 @@ public class UpdatingService extends IntentService {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putFloat("saldo_atual", saldoAtual);
                 editor.commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("email", LoginActivity.emailParam);
+                bundle.putString("email_google", LoginActivity.emailGoogle);
+                bundle.putString("email_facebook", LoginActivity.emailFB);
+                bundle.putString("link_fb", LoginActivity.linkFB);
+                bundle.putString("nome", LoginActivity.nomeFB);
+                bundle.putString("id", LoginActivity.idFacebook);
+                bundle.putFloat("valor_debitado", valorDiario);
+                mFirebaseAnalytics.logEvent("debito_diario", bundle);
+
             }
             if(saldoAtual < 10){
                 int hour = sharedPref.getInt("notification_hour", 22);
