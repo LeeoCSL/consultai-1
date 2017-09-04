@@ -10,7 +10,6 @@
 
     <ImageView
         android:id="@+id/iv_background"
-        android:src="@drawable/bk_1"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -109,12 +108,14 @@
 
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/login_fb"
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:gravity="center"
+                    android:onClick="handlerFakeFacebookLogin"
+                    android:id="@+id/login_fb_fake"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -139,12 +140,14 @@
 
                 <com.google.android.gms.common.SignInButton
                     android:id="@+id/login_google"
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 </com.google.android.gms.common.SignInButton>
 
                 <LinearLayout
+                    android:id="@+id/login_google_fake"
+                    android:onClick="handlerFakeGoogleLogin"
                     android:gravity="center"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="12dp"
@@ -169,11 +172,12 @@
     </LinearLayout>
 
     <Button
-        android:text="Não tem conta? Registre-se"
-        android:textSize="10sp"
-        android:background="#224F92"
-        android:layout_alignParentBottom="true"
-        android:textColor="@color/md_white_1000"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#224F92"
+        android:onClick="register"
+        android:text="Não tem conta? Registre-se"
+        android:textColor="@color/md_white_1000"
+        android:textSize="10sp" />
 </RelativeLayout>
