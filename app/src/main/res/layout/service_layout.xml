@@ -28,7 +28,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:textAlignment="center"
-            android:textSize="35sp"
+            android:textSize="25sp"
             android:padding="8dp"
             android:background="@drawable/dashboard_blue_item_background"
             android:layout_below="@+id/tv_seu_saldo"
@@ -41,16 +41,14 @@
             android:drawSelectorOnTop="true"
             android:id="@+id/dashboard_gridview"
             android:visibility="visible"
-            android:numColumns="3"
+            android:numColumns="auto_fit"
             android:gravity="center"
             android:horizontalSpacing="8dp"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp"
+            android:verticalSpacing="8dp"
             android:columnWidth="128dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="#e8e8e8"
-            >
+            android:layout_height="match_parent">
         </GridView>
     </RelativeLayout>
 </FrameLayout>

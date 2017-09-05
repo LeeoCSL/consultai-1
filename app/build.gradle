@@ -60,9 +60,11 @@ dependencies {
     compile 'id.zelory:compressor:2.1.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
 
 
 

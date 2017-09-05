@@ -5,6 +5,7 @@ import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.ComoUsarActivity;
 import br.com.carregai.carregai2.activity.LoginActivity;
+import br.com.carregai.carregai2.activity.RechargeActivity;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
 import br.com.carregai.carregai2.model.DashboardItem;
 import br.com.carregai.carregai2.model.Recarga;
@@ -78,16 +79,14 @@ public class ServicesFragment extends Fragment {
 
     public static final int GASTO_DIARIO = 0;
     public static final int VALOR_RECARGA = 1;
-    public static final int COMPRAI = 2;
+    public static final int DIAS_DA_SEMANA = 2;
     private static final int COMO_USAR = 3;
     private static final int LIMPAR_CAMPOS = 4;
     private static final int VIAGEM_EXTRA = 5;
-    public static final int ALARME = 6;
-    public static final int DIAS_DA_SEMANA = 7;
 
     public static TextView mDisplay;
 
-    private int[] mDrawables = {R.drawable.comum, R.drawable.integracao_360, R.drawable.estudante, R.drawable.integracao_estudante};
+    private int[] mDrawables = {R.drawable.comum, R.drawable.integracao_360, R.drawable.estudante};
 
     private int currentIndex = 0;
 
@@ -115,28 +114,24 @@ public class ServicesFragment extends Fragment {
                     case VALOR_RECARGA:
                         valorRecarga();
                         break;
-                    case COMPRAI:
-                        Utility.makeText(getActivity(), "//TODO");
+                    case DIAS_DA_SEMANA:
+                        selectDays();
                         break;
                     case COMO_USAR:
                         comoFunciona();
                         break;
-                    case LIMPAR_CAMPOS:
-                        limparCampos();
-                        break;
                     case VIAGEM_EXTRA:
                         viagemExtra();
                         break;
-                    case ALARME:
+                    case LIMPAR_CAMPOS:
+                        limparCampos();
+                        break;
+                    case 6:
                         setTimer();
                         break;
-                    case DIAS_DA_SEMANA:
-                        selectDays();
-                        break;
-                    case 8:
+                    case 7:
                         changeView(view);
                         break;
-
                 }
             }
         });
@@ -191,13 +186,12 @@ public class ServicesFragment extends Fragment {
         mItens = new ArrayList<>();
 
         mItens.add(new DashboardItem(R.drawable.cifrao, "Gasto diário"));
-        mItens.add(new DashboardItem(R.drawable.moeda, "Valor recarga"));
-        mItens.add(new DashboardItem(R.drawable.recarga, "CarregAí"));
+        mItens.add(new DashboardItem(R.drawable.moeda, "Valor de recarga"));
+        mItens.add(new DashboardItem(R.drawable.calendario, "Dias de uso"));
         mItens.add(new DashboardItem(R.drawable.interrogacao, "Como usar"));
         mItens.add(new DashboardItem(R.drawable.ic_vassoura, "Limpar dados"));
         mItens.add(new DashboardItem(R.drawable.bus, "Viagem extra"));
         mItens.add(new DashboardItem(R.drawable.cino, "Alarme"));
-        mItens.add(new DashboardItem(R.drawable.calendario, "Dias de uso"));
         mItens.add(new DashboardItem(R.drawable.comum, "Tarifação"));
     }
 
@@ -379,7 +373,9 @@ public class ServicesFragment extends Fragment {
 
     public void viagemExtra() {
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        startActivity(new Intent(getActivity(), RechargeActivity.class));
+
+/*        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         float value = sharedPref.getFloat("viagem_extra", 0);
         Log.d("SF", Float.toString(value));
@@ -438,7 +434,7 @@ public class ServicesFragment extends Fragment {
                 }
                 mFirebaseAnalytics.logEvent("viagem_extra", bundle);
             }
-        }
+        }*/
     }
 
     private void limparCampos() {

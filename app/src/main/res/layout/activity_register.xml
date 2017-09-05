@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.com.carregai.carregai2.activity.Main2Activity">
+
+    <ImageView
+        android:src="@drawable/bk_registre_720"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:gravity="center"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
         android:orientation="vertical"
-        tools:context="br.com.carregai.carregai2.activity.RegisterActivity">
+        android:padding="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="#CFffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/logo_register"
+            android:layout_gravity="center"
             android:layout_marginTop="36dp"
             android:src="@drawable/ic_logo_azul"
             android:layout_width="64dp"
@@ -64,7 +74,7 @@
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password" />
+                android:hint="Senha" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -105,4 +115,4 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

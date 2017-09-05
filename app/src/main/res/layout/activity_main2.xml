@@ -1,118 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="#EEEEEE"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="br.com.carregai.carregai2.activity.Main2Activity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_marginTop="36dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/calendario"
-        android:layout_width="96dp"
-        android:layout_height="96dp" />
-
-    <RelativeLayout
-        android:padding="8dp"
-        android:layout_marginTop="36dp"
-        android:background="@android:color/white"
+    <ImageView
+        android:src="@drawable/bk_registre_720"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent" />
 
-        <TextView
-            android:text="Viagem extra"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="#CFffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            app:srcCompat="@drawable/ic_edit_black_24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            android:id="@+id/logo_register"
+            android:layout_gravity="center"
+            android:layout_marginTop="36dp"
+            android:src="@drawable/ic_logo_azul"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
 
-    <View
-        android:background="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
-    <RelativeLayout
-        android:padding="8dp"
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:text="Gasto diário"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_gasto_diario"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_name_register"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="R$ 20,00" />
-    </RelativeLayout>
+            android:layout_below="@+id/logo_register"
+            android:layout_marginTop="36dp">
 
-    <View
-        android:background="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:hint="Nome" />
+        </android.support.design.widget.TextInputLayout>
 
-    <RelativeLayout
-        android:padding="8dp"
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_login_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_name_register"
+            android:layout_centerHorizontal="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:hint="Email" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            app:passwordToggleEnabled="true"
+            android:layout_marginTop="4dp"
+            android:id="@+id/input_password_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editText"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password" />
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:text="Ultima recarga"
-            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:layout_marginLeft="4dp"
+            android:text="Sua senha deve ter no mínimo 6 caracteres."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/tv_recarga"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="R$ 20,00" />
-    </RelativeLayout>
+            android:layout_marginTop="36dp"
+            android:background="@drawable/btn_blue"
+            android:onClick="handlerRegister"
+            android:text="Registrar"
+            android:textColor="#ffffff" />
 
-    <View
-        android:background="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:padding="8dp"
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
+                android:text="Já tem uma conta? Faça o "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:text="Saldo total"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_saldo_atual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="R$ 20,00" />
-    </RelativeLayout>
-
-</LinearLayout>
+            <TextView
+                android:textStyle="bold"
+                android:onClick="handlerLogin"
+                android:text="login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

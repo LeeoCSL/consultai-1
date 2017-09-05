@@ -92,7 +92,8 @@
         </receiver>
 
         <activity android:name=".activity.ComoUsarActivity" />
-        <activity android:name=".activity.Teste"></activity>
+        <activity android:name=".activity.Teste" />
+        <activity android:name=".activity.RechargeActivity"></activity>
     </application>
 
 </manifest>
