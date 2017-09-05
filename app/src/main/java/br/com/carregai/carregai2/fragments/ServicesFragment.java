@@ -195,7 +195,7 @@ public class ServicesFragment extends Fragment {
 
         mItens.add(new DashboardItem(R.drawable.cifrao, "Gasto diário"));
         mItens.add(new DashboardItem(R.drawable.moeda, "Valor recarga"));
-        mItens.add(new DashboardItem(R.drawable.cifrao2, "Valor recarga"));
+        mItens.add(new DashboardItem(R.drawable.cifrao2, "ComprAí"));
 
 
         mItens.add(new DashboardItem(R.drawable.interrogacao, "Como usar"));
