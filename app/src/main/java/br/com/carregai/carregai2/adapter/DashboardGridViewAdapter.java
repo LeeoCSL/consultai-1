@@ -1,6 +1,7 @@
 package br.com.carregai.carregai2.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -39,9 +41,11 @@ public class DashboardGridViewAdapter extends ArrayAdapter<DashboardItem> {
 
         DashboardItem item = getItem(position);
 
+        LinearLayout layout = (LinearLayout)view.findViewById(R.id.layout);
         ImageView imageView = (ImageView)view.findViewById(R.id.grid_item_image);
         TextView textView = (TextView)view.findViewById(R.id.grid_item_title);
-
+        layout.setBackgroundColor(Color.parseColor("#567567"));
+        layout.setBackgroundResource(R.drawable.dashboard_item_background);
         imageView.setImageResource(item.getImageID());
         textView.setText(item.getTitle());
 

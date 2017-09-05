@@ -117,16 +117,15 @@ public class LoginActivity extends AppCompatActivity {
         mDialog = new ProgressDialog(this);
         ButterKnife.bind(this);
 
-        mBackgroundImage.setBackgroundResource(R.drawable.login_animation);
-        mBackgroundImage.post(new Runnable() {
-            @Override
-            public void run() {
-                AnimationDrawable frameAnimation = (AnimationDrawable) mBackgroundImage.getBackground();
-                frameAnimation.setEnterFadeDuration(500);
-                frameAnimation.setExitFadeDuration(500);
-                frameAnimation.start();
-            }
-        });
+        Drawable[] layers = new Drawable[3];
+        Resources res = getResources();
+        layers[0] = res.getDrawable(R.drawable.bk_1);
+        layers[1] = res.getDrawable(R.drawable.bk_2_720);
+        layers[2] = res.getDrawable(R.drawable.bk_3_720);
+
+        TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
+        mBackgroundImage.setImageDrawable(transitionDrawable);
+        transitionDrawable.startTransition(2000);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -481,18 +480,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }else{
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    public void handlerFakeFacebookLogin(View v){
-        if(v.getId() == R.id.login_fb_fake){
-            mLoginFacebook.performClick();
-        }
-    }
-
-    public void handlerFakeGoogleLogin(View v){
-        if(v.getId() == R.id.login_google_fake){
-            mGoogleLogin.performClick();
         }
     }
 }
