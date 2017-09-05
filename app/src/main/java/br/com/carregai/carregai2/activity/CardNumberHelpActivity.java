@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.goodiebag.carouselpicker.CarouselPicker;
 
-public class RechargeActivity extends AppCompatActivity {
+public class CardNumberHelpActivity extends AppCompatActivity {
 
     @BindView(R.id.carousel)
     CarouselPicker mCarousel;
@@ -23,21 +23,20 @@ public class RechargeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recharge);
+        setContentView(R.layout.activity_card_number_help);
 
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Comprar recarga");
+        getSupportActionBar().setTitle("Número do cartão");
 
         List<CarouselPicker.PickerItem> imgs = new ArrayList<>();
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_01));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_02));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_03));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_04));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_05));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_06));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_07));
+        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_anhangabau_numero_480));
+        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_comum_numero_480));
+        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_estacionamento_numero_480));
+        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_estudante_numero_480));
+        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_ibirapuera_numero_480));
+        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_masp_numero_480));
 
         CarouselPicker.CarouselViewAdapter adapter = new CarouselPicker.CarouselViewAdapter(this, imgs, 0);
         mCarousel.setAdapter(adapter);
