@@ -13,7 +13,6 @@
         layout="@layout/toolbar"/>
 
     <LinearLayout
-        android:layout_margin="32dp"
         android:layout_below="@+id/toolbar"
         android:gravity="center"
         android:orientation="vertical"
@@ -34,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_white_1000"
-            app:items_visible="three" />
+            app:items_visible="five" />
 
         <TextView
             android:text="Seu número sempre estará no verso do cartão."

@@ -3,6 +3,10 @@ package br.com.carregai.carregai2.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
+
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +19,14 @@ import in.goodiebag.carouselpicker.CarouselPicker;
 public class RechargeActivity extends AppCompatActivity {
 
     @BindView(R.id.carousel)
-    CarouselPicker mCarousel;
+    CarouselView mCarousel;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    private int[] drawables = {R.drawable.cartao_01, R.drawable.cartao_02,
+            R.drawable.cartao_03, R.drawable.cartao_04, R.drawable.cartao_05,
+            R.drawable.cartao_06, R.drawable.cartao_07};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +38,15 @@ public class RechargeActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Comprar recarga");
 
-        List<CarouselPicker.PickerItem> imgs = new ArrayList<>();
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_01));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_02));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_03));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_04));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_05));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_06));
-        imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_07));
+        mCarousel.setPageCount(drawables.length);
 
-        CarouselPicker.CarouselViewAdapter adapter = new CarouselPicker.CarouselViewAdapter(this, imgs, 0);
-        mCarousel.setAdapter(adapter);
+        mCarousel.setImageListener(imageListener);
     }
+
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(drawables[position]);
+        }
+    };
 }

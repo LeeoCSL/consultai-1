@@ -1,8 +1,10 @@
 package br.com.carregai.carregai2.activity;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,24 @@ public class CardNumberHelpActivity extends AppCompatActivity {
         imgs.add(new CarouselPicker.DrawableItem(R.drawable.cartao_masp_numero_480));
 
         CarouselPicker.CarouselViewAdapter adapter = new CarouselPicker.CarouselViewAdapter(this, imgs, 0);
+        mCarousel.setClipToPadding(false);
         mCarousel.setAdapter(adapter);
+
+        mCarousel.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

@@ -12,12 +12,17 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <in.goodiebag.carouselpicker.CarouselPicker
+    <com.synnapps.carouselview.CarouselView
+        android:layout_margin="12dp"
         android:id="@+id/carousel"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/md_white_1000"
-        app:items_visible="three" />
+        android:layout_height="200dp"
+        app:fillColor="#FFFFFFFF"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:snap="true"
+        app:autoPlay="false"
+        app:slideInterval="3000"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp"/>
 </LinearLayout>
