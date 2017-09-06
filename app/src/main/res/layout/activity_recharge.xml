@@ -6,12 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="br.com.carregai.carregai2.activity.RechargeActivity">
+    tools:context="br.com.carregai.carregai2.activity.RechargeActivity"
+    android:gravity="top">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar2"/>
 
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Selecione o tipo de cartão"
+        android:textStyle="bold"
+        android:textColor="@color/azul_fonte"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        />
     <com.synnapps.carouselview.CarouselView
         android:layout_margin="12dp"
         android:id="@+id/carousel"
@@ -25,4 +38,39 @@
         app:slideInterval="3000"
         app:strokeColor="#FF777777"
         app:strokeWidth="1dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Escolha o valor da recarga!"
+        android:textStyle="bold"
+        android:textColor="@color/azul_fonte"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        />
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="5dp"
+        android:drawSelectorOnTop="true"
+        android:id="@+id/grid_recharge"
+        android:visibility="visible"
+        android:numColumns="4"
+        android:gravity="center"
+        android:horizontalSpacing="5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp"
+
+        />
+
+
+
+
+   
 </LinearLayout>

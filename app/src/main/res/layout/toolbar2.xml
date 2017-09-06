@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_app_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/Carrinho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_btn_carrinho"
+        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"/>
+    <ImageView
+        android:id="@+id/Lupa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_btn_lupa"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@+id/Coracao"
+        />
+    <ImageView
+        android:id="@+id/Coracao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_btn_coracao"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@id/Carrinho"/>
+</RelativeLayout>
+
+</android.support.v7.widget.Toolbar>
