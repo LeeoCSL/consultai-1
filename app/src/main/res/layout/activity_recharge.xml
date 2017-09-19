@@ -7,13 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="br.com.carregai.carregai2.activity.RechargeActivity"
-    android:gravity="top">
+    android:gravity="center">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar2"/>
-
-
 
     <TextView
         android:layout_width="match_parent"
@@ -38,7 +36,6 @@
         app:slideInterval="3000"
         app:strokeColor="#FF777777"
         app:strokeWidth="1dp"/>
-
 
     <TextView
         android:layout_width="match_parent"
@@ -65,12 +62,5 @@
         android:gravity="center"
         android:horizontalSpacing="5dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp"
-
-        />
-
-
-
-
-
+        android:verticalSpacing="5dp"/>
 </LinearLayout>

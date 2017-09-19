@@ -17,15 +17,15 @@
     <LinearLayout
         android:gravity="center"
         android:padding="24dp"
-        android:layout_marginBottom="24dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_register">
 
         <ImageView
             android:src="@drawable/logo_branco_login_480"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="164dp"
+            android:layout_height="86dp" />
 
         <EditText
             android:hint="Email"
@@ -172,6 +172,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

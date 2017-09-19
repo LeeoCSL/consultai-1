@@ -1,5 +1,6 @@
 package br.com.carregai.carregai2.activity;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,7 @@ import java.util.List;
 import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.adapter.DashGridViewAdapter;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
+import br.com.carregai.carregai2.model.CustomProgressDialog;
 import br.com.carregai.carregai2.model.DashItem;
 import br.com.carregai.carregai2.model.DashboardItem;
 import br.com.carregai.carregai2.utils.Utility;
@@ -32,9 +34,14 @@ public class RechargeActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    CustomProgressDialog dialog;
+
     private GridView GridView;
 
     private List<DashItem> Itens;
+
+
+
 
     public static final int btn190 = 0;
     public static final int btn380 = 1;
@@ -59,6 +66,9 @@ public class RechargeActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Comprar recarga");
 
+        dialog = new CustomProgressDialog(this, 1);
+
+
         mCarousel.setPageCount(drawables.length);
 
         mCarousel.setImageListener(imageListener);
@@ -70,6 +80,7 @@ public class RechargeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case btn190:
+                        dialog.show();
                         Utility.makeText(RechargeActivity.this, "//TODO");
                         break;
                     case btn380:

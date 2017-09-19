@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_como_usar"
+                            app:srcCompat="@drawable/ic_interrogacao"
                             android:layout_width="50dp"
                             android:layout_height="50dp" />
 
