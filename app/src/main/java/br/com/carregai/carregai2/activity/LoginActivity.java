@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String idFacebook;
     public static String emailFB;
     private FirebaseAnalytics mFirebaseAnalytics;
+
     @BindView(R.id.input_email)
     EditText mLogin;
 
@@ -107,9 +108,10 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private String userEmail, userPassword;
-    private ProgressDialog mDialog;
-    @Override
 
+    private ProgressDialog mDialog;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -135,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, Main3Activity.class));
                 }
             }
         };
@@ -145,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(mAuth.getCurrentUser() != null){
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, Main3Activity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
@@ -215,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                         bundle.putString("email_google", user.getEmail());
                         mFirebaseAnalytics.logEvent("login_google_ok", bundle);
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
@@ -435,7 +437,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         ref.setValue(user);
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
