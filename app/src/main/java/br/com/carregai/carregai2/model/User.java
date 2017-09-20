@@ -9,15 +9,17 @@ public class User {
     private String name;
     private String email;
     private String image;
+    private String phone;
 
     public User(){
 
     }
 
-    public User(String name, String email, String image) {
+    public User(String name, String email, String image, String phone) {
         this.name = name;
         this.email = email;
         this.image = image;
+        this.phone = phone;
     }
 
     public String getName() {
@@ -44,12 +46,21 @@ public class User {
         this.image = image;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", image='" + image + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }

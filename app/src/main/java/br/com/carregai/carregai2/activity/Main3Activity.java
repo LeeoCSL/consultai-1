@@ -21,11 +21,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,10 +44,12 @@ import java.util.HashMap;
 import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.adapter.SectionPageAdapter;
 import br.com.carregai.carregai2.fragments.ServicesFragment;
+import br.com.carregai.carregai2.model.User;
 import br.com.carregai.carregai2.service.UpdatingService;
 import br.com.carregai.carregai2.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Main3Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +57,10 @@ public class Main3Activity extends AppCompatActivity
     public static final String SERVICES_FRAGMENT = "Serviços";
     public static final String ORDERS_FRAGMENT = "Recargas";
     public static final int TOTAL_FRAGMENTS = 2;
+
+    private TextView mUsername;
+    private TextView mUserEmail;
+    private CircleImageView mUserImage;
 
     @BindView(R.id.main_page_toolbar)
     Toolbar mToolbar;
@@ -61,12 +75,19 @@ public class Main3Activity extends AppCompatActivity
 
     private boolean firstTime = true;
 
+    private DatabaseReference mUserDatabase;
+
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
         ButterKnife.bind(this);
+
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(toolbar);
@@ -85,6 +106,31 @@ public class Main3Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // navigation user info (foto, nome e email)
+        View header = navigationView.getHeaderView(0);
+        mUsername = (TextView)header.findViewById(R.id.nav_header_user_name);
+        mUserEmail = (TextView)header.findViewById(R.id.nav_header_user_email);
+        mUserImage = (CircleImageView) header.findViewById(R.id.nav_header_user_image);
+
+        mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+
+                Picasso.with(getApplicationContext()).
+                        load(user.getImage()).
+                        into(mUserImage);
+
+                mUsername.setText(user.getName());
+                mUserEmail.setText(user.getEmail());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mAdapter = new SectionPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -144,6 +190,9 @@ public class Main3Activity extends AppCompatActivity
 
             trigger();
         }
+
+        mUsername.setText("ola");
+
     }
 
     @Override
@@ -170,6 +219,7 @@ public class Main3Activity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
+            EventBus.getDefault().postSticky(user);
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_share) {
 

@@ -152,11 +152,12 @@
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:hint="Nome"
+                android:id="@+id/et_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:hint="Nome" />
 
             <TextView
                 android:text="Email"
@@ -168,11 +169,12 @@
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:hint="Email"
+                android:id="@+id/et_user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:hint="Email" />
 
             <TextView
                 android:text="Telefone"

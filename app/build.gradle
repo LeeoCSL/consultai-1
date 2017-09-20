@@ -63,6 +63,7 @@ dependencies {
     compile 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
     compile 'com.azoft.carousellayoutmanager:carousel:1.2.1'
     compile 'com.synnapps:carouselview:0.1.4'
+    compile 'org.greenrobot:eventbus:3.0.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

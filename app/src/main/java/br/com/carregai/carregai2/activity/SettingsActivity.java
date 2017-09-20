@@ -36,6 +36,8 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +53,7 @@ import id.zelory.compressor.Compressor;
 public class SettingsActivity extends AppCompatActivity {
 
     private static final int GALLERY_PICK = 1;
+
     @BindView(R.id.cv_user_logo)
     CircleImageView mImageView;
 
@@ -73,6 +76,15 @@ public class SettingsActivity extends AppCompatActivity {
     private DatabaseReference mUserDatabase;
     private FirebaseUser mCurrentUser;
 
+    private User user;
+
+    // informações pessoais do usuário
+    @BindView(R.id.et_user_name)
+    TextView mUserName;
+
+    @BindView(R.id.et_user_email)
+    TextView mUserEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +95,13 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Configurações");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        user = EventBus.getDefault().removeStickyEvent(User.class);
+
+        if(user != null){
+            mUserName.setText(user.getName());
+            mUserEmail.setText(user.getEmail());
+        }
 
         mDialog = new ProgressDialog(this);
 

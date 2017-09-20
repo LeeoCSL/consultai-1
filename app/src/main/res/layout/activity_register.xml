@@ -16,6 +16,7 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="16dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
@@ -23,20 +24,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/logo_register"
+            android:onClick="toChangeImage"
             android:layout_gravity="center"
-            android:layout_marginTop="36dp"
-            android:src="@drawable/ic_logo_azul"
-            android:layout_width="64dp"
-            android:layout_height="64dp" />
+            android:src="@drawable/ic_avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <TextView
+            android:text="Alterar foto"
+            android:onClick="toChangeImage"
+            android:textColor="@color/blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_name_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo_register"
-            android:layout_marginTop="36dp">
+            android:layout_marginTop="8dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -59,6 +67,21 @@
                 android:maxLines="1"
                 android:inputType="textEmailAddress"
                 android:hint="Email" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_phone_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_name_register"
+            android:layout_centerHorizontal="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="phone"
+                android:hint="Telefone" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
