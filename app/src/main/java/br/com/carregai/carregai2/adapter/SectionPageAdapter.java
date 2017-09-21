@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import br.com.carregai.carregai2.MainActivity;
+import br.com.carregai.carregai2.activity.Main3Activity;
 import br.com.carregai.carregai2.fragments.OrdersFragment;
 import br.com.carregai.carregai2.fragments.ServicesFragment;
 
@@ -36,16 +37,16 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return MainActivity.TOTAL_FRAGMENTS;
+        return Main3Activity.TOTAL_FRAGMENTS;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return MainActivity.SERVICES_FRAGMENT;
+                return Main3Activity.SERVICES_FRAGMENT;
             case 1:
-                return MainActivity.ORDERS_FRAGMENT;
+                return Main3Activity.ORDERS_FRAGMENT;
         }
         return null;
     }

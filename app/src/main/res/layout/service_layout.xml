@@ -1,54 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/lightgrey"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ListView
+        android:drawSelectorOnTop="true"
+        android:layout_margin="8dp"
+        android:id="@+id/dashboard_listview"
+        android:divider="@color/lightgrey"
+        android:dividerHeight="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/tv_seu_saldo"
-            android:layout_below="@+id/appBarLayout"
-            android:layout_marginLeft="13dp"
-            android:layout_marginTop="16dp"
-            android:textSize="20sp"
-            android:padding="8dp"
-            android:text="Seu Saldo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_display"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:text="R$ 00,00"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            android:padding="8dp"
-            android:background="@drawable/dashboard_blue_item_background"
-            android:layout_below="@+id/tv_seu_saldo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <GridView
-            android:layout_margin="8dp"
-            android:layout_below="@+id/tv_display"
-            android:drawSelectorOnTop="true"
-            android:id="@+id/dashboard_gridview"
-            android:visibility="visible"
-            android:numColumns="3"
-            android:gravity="center"
-            android:horizontalSpacing="8dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp"
-            android:columnWidth="128dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </GridView>
-    </RelativeLayout>
-</FrameLayout>
+    </ListView>
+</RelativeLayout>

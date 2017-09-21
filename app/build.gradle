@@ -39,7 +39,8 @@ dependencies {
         transitive = true
         exclude module: 'support-annotations'
     }
-
+    compile 'com.android.support:support-core-utils:25.3.1'
+    compile 'com.stepstone.stepper:material-stepper:4.2.0'
     compile 'io.branch.sdk.android:library:2.+'
     compile 'com.appsee:appsee-android:+'
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -67,6 +68,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
 
 
 

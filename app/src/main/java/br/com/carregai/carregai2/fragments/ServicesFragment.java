@@ -5,8 +5,11 @@ import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.ComoUsarActivity;
 import br.com.carregai.carregai2.activity.LoginActivity;
+import br.com.carregai.carregai2.activity.Main3Activity;
 import br.com.carregai.carregai2.activity.RechargeActivity;
+import br.com.carregai.carregai2.activity.SettingsActivity;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
+import br.com.carregai.carregai2.adapter.DashboardListViewAdapter;
 import br.com.carregai.carregai2.model.DashboardItem;
 import br.com.carregai.carregai2.model.Recarga;
 import br.com.carregai.carregai2.service.UpdatingService;
@@ -41,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -65,24 +69,18 @@ import java.util.Locale;
 import static android.content.Context.ALARM_SERVICE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-/**
- * Created by renan.boni on 09/08/2017.
- */
-
 public class ServicesFragment extends Fragment {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private GridView mGridView;
     private DashboardGridViewAdapter mAdapter;
-    private List<DashboardItem> mItens;
 
-    public static final int GASTO_DIARIO = 0;
-    public static final int VALOR_RECARGA = 1;
-    public static final int COMPRAI = 2;
-    private static final int COMO_USAR = 3;
-    private static final int LIMPAR_CAMPOS = 4;
-    private static final int VIAGEM_EXTRA = 5;
+    public static final int COMPRAR_BILHETE = 0;
+    public static final int MINHA_CARTEIRA = 1;
+    public static final int AJUDA = 2;
+    private static final int CONFIGURACOES = 3;
+    private static final int SAIR = 4;
 
     public static final int DIAS_DA_SEMANA = 7;
 
@@ -92,6 +90,10 @@ public class ServicesFragment extends Fragment {
 
     private int currentIndex = 0;
 
+    private ListView mListView;
+
+    private List<DashboardItem> mItens;
+
     public ServicesFragment() {
     }
 
@@ -100,52 +102,43 @@ public class ServicesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        View view = inflater.inflate(R.layout.service_layout, container, false);
+
+        mListView = (ListView) view.findViewById(R.id.dashboard_listview);
 
         getItensList();
-        View view = inflater.inflate(R.layout.service_layout, container, false);
-        mDisplay = (TextView) view.findViewById(R.id.tv_display);
-        mGridView = (GridView) view.findViewById(R.id.dashboard_gridview);
-        mGridView.setAdapter(new DashboardGridViewAdapter(view.getContext(), 1, mItens));
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case GASTO_DIARIO:
-                        valorDiario();
-                        break;
-                    case VALOR_RECARGA:
-                        valorRecarga();
-                        break;
-                    case COMPRAI:
-                        comprai();
-                        break;
+        mListView.setAdapter(new DashboardListViewAdapter(getApplicationContext(), 1, mItens));
+        mListView.setOnItemClickListener(onItemClickListener);
 
-                    case COMO_USAR:
-                        comoFunciona();
-                        break;
-
-                    case LIMPAR_CAMPOS:
-                        limparCampos();
-                        break;
-                    case VIAGEM_EXTRA:
-                        viagemExtra();
-                        break;
-                    case 6:
-                        setTimer();
-                        break;
-                    case DIAS_DA_SEMANA:
-                        selectDays();
-                        break;
-                    case 8:
-                        changeView(view);
-                        break;
-
-                }
-            }
-        });
         return view;
     }
 
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            switch (position) {
+                case AJUDA:
+                    startActivity(new Intent(getApplicationContext(), ComoUsarActivity.class));
+                    break;
+                case CONFIGURACOES:
+                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                    break;
+                case SAIR:
+                    signOut();
+                    break;
+                default:
+                    Toast.makeText(getApplicationContext(), ""+mItens.get(position).getTitle(), Toast.LENGTH_LONG).show();
+                    break;
+            }
+        }
+    };
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 
     private void setTimer(){
 
@@ -187,24 +180,17 @@ public class ServicesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        updateViews();
+        //updateViews();
     }
 
     private void getItensList() {
         mItens = new ArrayList<>();
 
-        mItens.add(new DashboardItem(R.drawable.cifrao, "Gasto diário"));
-        mItens.add(new DashboardItem(R.drawable.moeda, "Valor recarga"));
-        mItens.add(new DashboardItem(R.drawable.cifrao2, "ComprAí"));
-
-
-        mItens.add(new DashboardItem(R.drawable.interrogacao, "Como usar"));
-        mItens.add(new DashboardItem(R.drawable.ic_vassoura, "Limpar dados"));
-        mItens.add(new DashboardItem(R.drawable.bus, "Viagem extra"));
-        mItens.add(new DashboardItem(R.drawable.cino, "Alarme"));
-        mItens.add(new DashboardItem(R.drawable.calendario, "Dias de uso"));
-
-        mItens.add(new DashboardItem(R.drawable.comum, "Tarifação"));
+        mItens.add(new DashboardItem(R.drawable.ic_bus_card, "Carregar bilhete"));
+        mItens.add(new DashboardItem(R.drawable.ic_wallet, "Minha carteira"));
+        mItens.add(new DashboardItem(R.drawable.ic_help, "Ajuda"));
+        mItens.add(new DashboardItem(R.drawable.ic_config, "Configurações"));
+        mItens.add(new DashboardItem(R.drawable.ic_sair, "Sair"));
     }
 
     private void updateViews() {

@@ -21,8 +21,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,14 +39,19 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 
+import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.adapter.DashboardListViewAdapter;
 import br.com.carregai.carregai2.adapter.SectionPageAdapter;
 import br.com.carregai.carregai2.fragments.ServicesFragment;
+import br.com.carregai.carregai2.model.DashboardItem;
 import br.com.carregai.carregai2.model.User;
 import br.com.carregai.carregai2.service.UpdatingService;
 import br.com.carregai.carregai2.utils.Utility;
@@ -65,10 +73,8 @@ public class Main3Activity extends AppCompatActivity
     @BindView(R.id.main_page_toolbar)
     Toolbar mToolbar;
 
-    @BindView(R.id.main_view_pager)
     ViewPager mViewPager;
 
-    @BindView(R.id.main_tab)
     TabLayout mTabLayout;
 
     private SectionPageAdapter mAdapter;
@@ -79,6 +85,8 @@ public class Main3Activity extends AppCompatActivity
 
     private User user;
 
+    private List<DashboardItem> mItens;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +94,16 @@ public class Main3Activity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        mViewPager = (ViewPager)findViewById(R.id.main_view_pager);
+        mTabLayout = (TabLayout)findViewById(R.id.main_tab);
+
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+
+        mAdapter = new SectionPageAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mAdapter);
+
+        mTabLayout.setupWithViewPager(mViewPager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(toolbar);
@@ -132,10 +148,6 @@ public class Main3Activity extends AppCompatActivity
             }
         });
 
-        mAdapter = new SectionPageAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mAdapter);
-
-        mTabLayout.setupWithViewPager(mViewPager);
 
         if(firstTime){
 
