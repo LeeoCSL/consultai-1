@@ -190,9 +190,6 @@ public class Main3Activity extends AppCompatActivity
 
             trigger();
         }
-
-        mUsername.setText("ola");
-
     }
 
     @Override
@@ -215,7 +212,7 @@ public class Main3Activity extends AppCompatActivity
         if (id == R.id.nav_camera) {
 
         } else if (id == R.id.nav_gallery) {
-
+            startActivity(new Intent(this, MeuSaldo.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -224,12 +221,20 @@ public class Main3Activity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     /*
