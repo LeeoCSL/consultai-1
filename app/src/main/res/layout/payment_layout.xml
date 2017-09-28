@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F1F5F8"
+    android:layout_centerVertical="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <in.goodiebag.carouselpicker.CarouselPicker
+        android:id="@+id/carousel"
+        android:background="@color/md_white_1000"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </in.goodiebag.carouselpicker.CarouselPicker>
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/credit_card_layout"
+        layout="@layout/credit_card_layout"/>
+
+<!--    <include
+        android:id="@+id/transference_layout"
+        android:visibility="gone"
+        layout="@layout/transference_layout"/>-->
+
+    <include
+        android:id="@+id/transference_user_layout"
+        android:visibility="gone"
+        layout="@layout/transference_user_layout"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:padding="8dp"
+        android:layout_below="@+id/carousel"
+        android:id="@+id/transference_layout"
+        android:visibility="gone"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+   <!-- <LinearLayout
+        android:id="@+id/transference_layout"
+        android:visibility="gone"
+        android:layout_below="@+id/carousel"
+        android:layout_above="@+id/btn_continue"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/banco_brasil"
+            android:background="#FFF300"
+            android:padding="4dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/bb_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp" />
+
+            <TextView
+                android:text="Banco do Brasil"
+                android:layout_gravity="center"
+                android:layout_marginLeft="48dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/banco_santander"
+            android:background="#E52520"
+            android:padding="4dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/santander_logo"
+                android:layout_width="64dp"
+                android:layout_height="64dp" />
+
+            <TextView
+                android:text="Santander"
+                android:layout_gravity="center"
+                android:textColor="@color/md_white_1000"
+                android:layout_marginLeft="48dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/banco_itau"
+            android:background="#2E3192"
+            android:padding="4dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/itau_logo"
+                android:layout_width="64dp"
+                android:layout_height="64dp" />
+
+            <TextView
+                android:text="Itau"
+                android:layout_gravity="center"
+                android:textColor="@color/md_white_1000"
+                android:layout_marginLeft="48dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/banco_caixa"
+            android:background="@drawable/selector_card_background"
+            android:padding="4dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/logo_caixa"
+                android:layout_width="64dp"
+                android:layout_height="64dp" />
+
+            <TextView
+                android:text="Caixa Econômica"
+                android:layout_gravity="center"
+                android:layout_marginLeft="48dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/banco_bradesco"
+            android:background="#CD072F"
+            android:padding="4dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/logo_caixa"
+                android:layout_width="64dp"
+                android:layout_height="64dp" />
+
+            <TextView
+                android:text="Bradesco"
+                android:layout_gravity="center"
+                android:layout_marginLeft="48dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+-->
+    <Button
+        android:text="Continuar"
+        android:visibility="gone"
+        android:id="@+id/btn_continue"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/md_white_1000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/btn_transference_user"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_margin="16dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="Voltar"
+            android:id="@+id/btn_back"
+            android:background="@drawable/selector_card_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:text="Confirmar"
+            android:id="@+id/btn_confirm"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/selector_card_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</RelativeLayout>

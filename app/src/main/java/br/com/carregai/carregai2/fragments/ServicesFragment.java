@@ -6,6 +6,7 @@ import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.ComoUsarActivity;
 import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.activity.Main3Activity;
+import br.com.carregai.carregai2.activity.PaymentActivity;
 import br.com.carregai.carregai2.activity.RechargeActivity;
 import br.com.carregai.carregai2.activity.SettingsActivity;
 import br.com.carregai.carregai2.adapter.DashboardGridViewAdapter;
@@ -71,6 +72,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ServicesFragment extends Fragment {
 
+    private static final int PAGAMENTO = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private GridView mGridView;
@@ -122,6 +124,9 @@ public class ServicesFragment extends Fragment {
                     break;
                 case CONFIGURACOES:
                     startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                    break;
+                case PAGAMENTO:
+                    startActivity(new Intent(getApplicationContext(), PaymentActivity.class));
                     break;
                 case SAIR:
                     signOut();

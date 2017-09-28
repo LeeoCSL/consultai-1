@@ -1,5 +1,6 @@
 package br.com.carregai.carregai2.interfaces;
 
+import br.com.carregai.carregai2.model.Bank;
 import br.com.carregai.carregai2.model.DashboardItem;
 
 /**

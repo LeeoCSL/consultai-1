@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "br.com.carregai.carregai2"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 8
         multiDexEnabled = true
         versionName "8.0"
@@ -29,6 +29,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     //Butter Knife
     compile('com.jakewharton:butterknife:8.5.1') {
         exclude module: 'support-annotations'
@@ -39,16 +40,17 @@ dependencies {
         transitive = true
         exclude module: 'support-annotations'
     }
-    compile 'com.android.support:support-core-utils:25.3.1'
-    compile 'com.stepstone.stepper:material-stepper:4.2.0'
+
+    compile 'com.android.support:support-core-utils:25.4.0'
+    compile 'com.stepstone.stepper:material-stepper:4.3.0'
     compile 'io.branch.sdk.android:library:2.+'
     compile 'com.appsee:appsee-android:+'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.firebase:firebase-auth:10.0.1'
     compile 'com.google.android.gms:play-services-auth:10.0.1'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:support-v4:25.4.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.firebaseui:firebase-ui-database:0.4.4'
@@ -60,11 +62,12 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'id.zelory:compressor:2.1.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.android.support:support-vector-drawable:25.4.0'
     compile 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
     compile 'com.azoft.carousellayoutmanager:carousel:1.2.1'
     compile 'com.synnapps:carouselview:0.1.4'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'ivb.com.materialstepper:material-stepper:0.0.2'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

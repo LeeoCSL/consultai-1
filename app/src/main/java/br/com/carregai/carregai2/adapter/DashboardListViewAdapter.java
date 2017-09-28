@@ -39,8 +39,6 @@ public class DashboardListViewAdapter extends ArrayAdapter<DashboardItem> {
         ImageView imageView = (ImageView)view.findViewById(R.id.list_item_image);
         TextView textView = (TextView)view.findViewById(R.id.list_item_title);
 
-        Log.i("AEAE", item.getTitle());
-
         imageView.setImageResource(item.getImageID());
         textView.setText(item.getTitle());
 

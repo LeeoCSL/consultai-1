@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    android:background="#F1F5F8"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/bilhete_unico_ll"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Qual é o número do seu Bilhete Único?"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:background="@drawable/selector_card_background"
+            android:layout_marginTop="4dp"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Escolha um apelido para o seu Bilhete Único"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:background="@drawable/selector_card_background"
+            android:layout_marginTop="4dp"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ListView
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:id="@+id/lv_values"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+    <Button
+        android:text="Continuar"
+        android:id="@+id/btn_continue"
+        android:background="@color/primary"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/md_white_1000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Outro valor"
+        android:visibility="gone"
+        android:id="@+id/btn_other_value"
+        android:background="@color/primary"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/md_white_1000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
