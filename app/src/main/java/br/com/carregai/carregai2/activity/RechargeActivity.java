@@ -41,8 +41,6 @@ public class RechargeActivity extends AppCompatActivity {
     private List<DashItem> Itens;
 
 
-
-
     public static final int btn190 = 0;
     public static final int btn380 = 1;
     public static final int btn500 = 2;

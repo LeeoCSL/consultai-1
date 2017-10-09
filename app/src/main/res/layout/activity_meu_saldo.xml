@@ -12,7 +12,13 @@
         android:id="@+id/toolbar"
         layout="@layout/default_toolbar"/>
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+  <!--  <RelativeLayout
         android:background="@drawable/selector_card_background_blue"
         android:id="@+id/meu_saldo"
         android:layout_below="@+id/toolbar"
@@ -166,5 +172,5 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 </RelativeLayout>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_collapseParallaxMultiplier="0"
+    tools:context="br.com.carregai.carregai2.activity.Payment2Activity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/payment_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/t1"
+                android:layout_width="16dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:elevation="4dp"
+                android:src="@drawable/triangle_indicator" />
+
+            <Button
+                android:id="@+id/btn_carrinho"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="Carrinho"
+                android:textColor="@color/md_white_1000" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/t2"
+                android:layout_width="16dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:elevation="4dp"
+                android:src="@drawable/triangle_indicator"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_pagamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:enabled="false"
+                android:text="Pagamento"
+                android:textColor="@color/md_white_1000" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/t3"
+                android:layout_width="16dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:elevation="4dp"
+                android:src="@drawable/triangle_indicator"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_revisao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:enabled="false"
+                android:text="Revisão"
+                android:textColor="@color/md_white_1000" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/place_holder1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"></FrameLayout>
+</LinearLayout>

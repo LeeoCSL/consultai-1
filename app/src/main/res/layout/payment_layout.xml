@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F1F5F8"
     android:layout_centerVertical="true"
@@ -177,7 +178,6 @@
         android:id="@+id/btn_continue"
         android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
         android:textColor="@color/md_white_1000"
         android:layout_width="match_parent"

@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,14 +59,14 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.cv_user_logo)
     CircleImageView mImageView;
 
-    @BindView(R.id.tv_saldo_atual)
+    /*@BindView(R.id.tv_saldo_atual)
     TextView mSaldoAtual;
 
     @BindView(R.id.tv_recarga)
     TextView mRecarga;
 
     @BindView(R.id.tv_gasto_diario)
-    TextView mGastoDiario;
+    TextView mGastoDiario;*/
 
     @BindView(R.id.settings_toolbar)
     Toolbar mToolbar;
@@ -85,6 +87,11 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.et_user_email)
     TextView mUserEmail;
 
+    @BindView(R.id.spinner)
+    Spinner mSpinner;
+
+    private String[] gender = new String[]{"Masculino", "Feminino"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +101,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Configurações");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         user = EventBus.getDefault().removeStickyEvent(User.class);
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gender);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(spinnerArrayAdapter);
 
         if(user != null){
             mUserName.setText(user.getName());
@@ -112,10 +123,10 @@ public class SettingsActivity extends AppCompatActivity {
         mUserDatabase = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(currentUserID);
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+      /*  SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         mSaldoAtual.setText(Utility.formatValue(sp.getFloat("saldo_atual", 0)));
         mRecarga.setText(Utility.formatValue(sp.getFloat("valor_recarga", 0)));
-        mGastoDiario.setText(Utility.formatValue(sp.getFloat("valor_diario", 0)));
+        mGastoDiario.setText(Utility.formatValue(sp.getFloat("valor_diario", 0)));*/
 
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override

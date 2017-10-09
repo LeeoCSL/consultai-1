@@ -68,9 +68,12 @@ dependencies {
     compile 'com.synnapps:carouselview:0.1.4'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'ivb.com.materialstepper:material-stepper:0.0.2'
+    compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
+
 
 
 

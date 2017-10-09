@@ -6,6 +6,7 @@ import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.ComoUsarActivity;
 import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.activity.Main3Activity;
+import br.com.carregai.carregai2.activity.Payment2Activity;
 import br.com.carregai.carregai2.activity.PaymentActivity;
 import br.com.carregai.carregai2.activity.RechargeActivity;
 import br.com.carregai.carregai2.activity.SettingsActivity;
@@ -126,7 +127,7 @@ public class ServicesFragment extends Fragment {
                     startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                     break;
                 case PAGAMENTO:
-                    startActivity(new Intent(getApplicationContext(), PaymentActivity.class));
+                    startActivity(new Intent(getApplicationContext(), Payment2Activity.class));
                     break;
                 case SAIR:
                     signOut();

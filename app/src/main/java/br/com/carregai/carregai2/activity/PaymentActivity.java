@@ -6,11 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.adapter.PaymentPageAdapter;
 import br.com.carregai.carregai2.adapter.SectionPageAdapter;
+import br.com.carregai.carregai2.fragments.PaymentFragment;
+import br.com.carregai.carregai2.fragments.ReviewFragment;
+import br.com.carregai.carregai2.fragments.ShippingFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ivb.com.materialstepper.progressMobileStepper;
@@ -32,6 +36,8 @@ public class PaymentActivity extends progressMobileStepper {
     TabLayout mTabLayout;
 
     Toolbar mToolbar;
+
+    private List<Class> stepperFragmentList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,10 @@ public class PaymentActivity extends progressMobileStepper {
 
     @Override
     public List<Class> init() {
-        return null;
+        stepperFragmentList.add(ShippingFragment.class);
+        stepperFragmentList.add(PaymentFragment.class);
+        stepperFragmentList.add(ReviewFragment.class);
+
+        return stepperFragmentList;
     }
 }

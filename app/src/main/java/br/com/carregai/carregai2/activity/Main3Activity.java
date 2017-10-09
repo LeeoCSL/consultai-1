@@ -229,7 +229,7 @@ public class Main3Activity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
             EventBus.getDefault().postSticky(user);
-            startActivity(new Intent(this, SettingsActivity.class));
+            startActivity(new Intent(this, ConfigActivity.class));
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
