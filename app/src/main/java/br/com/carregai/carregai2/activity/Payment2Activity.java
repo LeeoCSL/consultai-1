@@ -1,5 +1,6 @@
 package br.com.carregai.carregai2.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -30,10 +31,14 @@ public class Payment2Activity extends AppCompatActivity {
     private Toolbar mToolbar;
     public static TextView mValue;
 
+    ImageView btn_voltar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment2);
+
+        btn_voltar = (ImageView) findViewById(R.id.btn_voltar);
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         mValue = (TextView)mToolbar.findViewById(R.id.payment_value);
@@ -57,6 +62,11 @@ public class Payment2Activity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.place_holder1, frag1)
                 .commit();
+    }
+
+    public void voltar(View v){
+        Intent intent = new Intent(this, Main3Activity.class);
+        startActivity(intent);
     }
 
     private void disableButton(Button button){
