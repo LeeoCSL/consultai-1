@@ -101,7 +101,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Configurações");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = EventBus.getDefault().removeStickyEvent(User.class);
 

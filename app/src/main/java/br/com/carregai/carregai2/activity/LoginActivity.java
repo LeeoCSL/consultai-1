@@ -3,6 +3,7 @@ package br.com.carregai.carregai2.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -64,6 +67,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
 
 import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
@@ -136,23 +143,22 @@ public class LoginActivity extends AppCompatActivity {
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() != null){
+                if (firebaseAuth.getCurrentUser() != null) {
                     startActivity(new Intent(LoginActivity.this, Main3Activity.class));
                 }
             }
         };
 
         mLoginFacebook = (LoginButton)findViewById(R.id.login_fb);
-        mGoogleLogin = (SignInButton)findViewById(R.id.login_google);
+        mGoogleLogin = (SignInButton) findViewById(R.id.login_google);
 
 
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             Intent intent = new Intent(this, Main3Activity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -175,12 +181,87 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        mCallbackManager = CallbackManager.Factory.create();
+
+        mLoginFacebook.setReadPermissions(Arrays.asList("email", "public_profile", "user_birthday"));
+
+        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Profile profile = Profile.getCurrentProfile();
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+                                try {
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    String gender = object.getString("gender");
+                                    editor.putString("gender", gender);
+                                    editor.commit();
+                                    String age = object.getString("birthday");
+                                    editor.putString("birthday", age);
+                                    editor.commit();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                // Application code
+
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+                handleFacebookAcessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                Bundle bundle = new Bundle();
+                bundle.putString("nome", sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                mFirebaseAnalytics.logEvent("login_facebook_cancelado", bundle);
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nome", sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                mFirebaseAnalytics.logEvent("login_facebook_erro", bundle);
+
+                Toast.makeText(LoginActivity.this, "Erro: " + error.toString(), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+            }
+        });
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthStateListener);
     }
 
     private void signIn() {
@@ -212,10 +293,19 @@ public class LoginActivity extends AppCompatActivity {
                         user.setEmail(authResult.getUser().getEmail());
                         user.setName(authResult.getUser().getDisplayName());
 
+
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("emailGoogle", user.getEmail());
+                        editor.putString("nome", user.getName());
+                        editor.commit();
+
                         ref.setValue(user);
 
-                        Bundle bundle  = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putString("email_google", user.getEmail());
+                        bundle.putString("nome", sharedPref.getString("nome", ""));
                         mFirebaseAnalytics.logEvent("login_google_ok", bundle);
 
                         Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
@@ -227,7 +317,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void forgetPassword(View v){
+    public void forgetPassword(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Email");
 
@@ -242,11 +332,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = input.getText().toString().trim();
 
-                if(!TextUtils.isEmpty(email)){
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("email_reset", email);
+                editor.commit();
+
+                if (!TextUtils.isEmpty(email)) {
                     DialogUtils.loadingDialog(LoginActivity.this);
                     resetPassword(email);
                     dialog.dismiss();
-                }else{
+                } else {
 
                 }
             }
@@ -262,13 +357,15 @@ public class LoginActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void resetPassword(String email){
+    public void resetPassword(String email) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         Bundle bundle = new Bundle();
-                        bundle.putString("email", userEmail);
+                        bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
+
                         mFirebaseAnalytics.logEvent("reset_senha_ok", bundle);
                         DialogUtils.hideLoadingDialog();
                         Toast.makeText(LoginActivity.this, "Acabamos de te enviar as instruções de como recuperar sua conta.", Toast.LENGTH_LONG).show();
@@ -278,8 +375,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 DialogUtils.hideLoadingDialog();
                 if (e.getClass() == FirebaseAuthInvalidUserException.class) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     Bundle bundle = new Bundle();
-                    bundle.putString("email", userEmail);
+                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
+
                     mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
                     Toast.makeText(LoginActivity.this,
                             "Usuário não encontrado", Toast.LENGTH_LONG).show();
@@ -287,8 +386,10 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 if (e.getClass() == FirebaseException.class) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     Bundle bundle = new Bundle();
-                    bundle.putString("email", userEmail);
+                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
+
                     mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
                     Toast.makeText(LoginActivity.this,
                             "Email inválido", Toast.LENGTH_LONG).show();
@@ -298,15 +399,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void validateDateFromEditText(){
+    private void validateDateFromEditText() {
         userEmail = mLogin.getText().toString().trim();
         userPassword = mPassword.getText().toString().trim();
 
-        if(!Utility.isEmailValid(userEmail)){
+        if (!Utility.isEmailValid(userEmail)) {
             mLogin.setError("Email inválido.");
             return;
         }
-        if(TextUtils.isEmpty(userPassword)){
+        if (TextUtils.isEmpty(userPassword)) {
             mPassword.setError("Senha inválida.");
             return;
         }
@@ -323,10 +424,16 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("email", userEmail);
-                        mFirebaseAnalytics.logEvent("login_email_ok", bundle);
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("emailParam", userEmail);
+                        editor.commit();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("email", sharedPref.getString("emailParam", " "));
+                        bundle.putString("nome", sharedPref.getString("nome", " "));
+                        mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
@@ -358,92 +465,113 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void handlerLogin(View v){
+    public void handlerLogin(View v) {
         validateDateFromEditText();
     }
 
-    public void register(View v){
+    public void register(View v) {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
-    public void loginWithFacebook(View view) {
-        mCallbackManager = CallbackManager.Factory.create();
-        mLoginFacebook.setReadPermissions("email", "public_profile");
-        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                Profile profile = Profile.getCurrentProfile();
-                String nomeFB = profile.getName();
-                Bundle bundle = new Bundle();
-                bundle.putString("nome_facebook", nomeFB);
-                bundle.putString("email_facebook", userEmail);
-                mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
-
-                handleFacebookAcessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("email", userEmail);
-                mFirebaseAnalytics.logEvent("login_facebook_cancelado", bundle);
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("email", userEmail);
-                mFirebaseAnalytics.logEvent("login_facebook_erro", bundle);
-
-                Toast.makeText(LoginActivity.this, "Erro: " +error.toString(), Toast.LENGTH_LONG).show();
-                error.printStackTrace();
-            }
-        });
-    }
+//    public void loginWithFacebook(View view) {
+//        mCallbackManager = CallbackManager.Factory.create();
+//        mLoginFacebook.setReadPermissions("email", "public_profile");
+//        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//
+//                Profile profile = Profile.getCurrentProfile();
+//
+//                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("nome",sharedPref.getString("nome", ""));
+//                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+//                mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
+//
+//                handleFacebookAcessToken(loginResult.getAccessToken());
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                Bundle bundle = new Bundle();
+//                bundle.putString("nome",sharedPref.getString("nome", ""));
+//                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+//                mFirebaseAnalytics.logEvent("login_facebook_cancelado", bundle);
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("nome",sharedPref.getString("nome", ""));
+//                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+//                mFirebaseAnalytics.logEvent("login_facebook_erro", bundle);
+//
+//                Toast.makeText(LoginActivity.this, "Erro: " +error.toString(), Toast.LENGTH_LONG).show();
+//                error.printStackTrace();
+//            }
+//        });
+//    }
 
     private void handleFacebookAcessToken(final AccessToken token) {
         final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
 
         DialogUtils.loadingDialog(this);
+//
+        mAuth.signInWithCredential(credential).addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
 
-        mAuth.signInWithCredential(credential)
-                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
+                DialogUtils.hideLoadingDialog();
 
-                        DialogUtils.hideLoadingDialog();
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
-
-                        User user = new User();
-                        user.setEmail(authResult.getUser().getEmail());
-                        user.setName(authResult.getUser().getDisplayName());
-                        user.setImage("https://graph.facebook.com/" +token.getUserId()+"/picture?type=small");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
 
 
-                        Profile currentProfile = Profile.getCurrentProfile();
-                        Uri profilePictureUri = currentProfile.getProfilePictureUri(32, 32);
+                User user = new User();
+                user.setEmail(authResult.getUser().getEmail());
+                user.setName(authResult.getUser().getDisplayName());
 
-                        FirebaseUser firebaUser = FirebaseAuth.getInstance().getCurrentUser();
-                        UserProfileChangeRequest req = new UserProfileChangeRequest.Builder()
-                                .setPhotoUri(profilePictureUri).build();
+                user.setImage("https://graph.facebook.com/" + token.getUserId() + "/picture?type=small");
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("nome", user.getName());
+                editor.putString("emailFB", user.getEmail());
+
+                editor.commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nome", sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                bundle.putString("sexo", sharedPref.getString("gender", ""));
+
+                mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
 
 
-                        firebaUser.updateProfile(req);
 
-                        ref.setValue(user);
+                Profile currentProfile = Profile.getCurrentProfile();
+                Uri profilePictureUri = currentProfile.getProfilePictureUri(32, 32);
 
-                        Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
+                FirebaseUser firebaUser = FirebaseAuth.getInstance().getCurrentUser();
+                UserProfileChangeRequest req = new UserProfileChangeRequest.Builder()
+                        .setPhotoUri(profilePictureUri).build();
+
+
+                firebaUser.updateProfile(req);
+
+                ref.setValue(user);
+
+                Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        })
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -453,19 +581,19 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Este email está vinculado a uma outra conta com o facebook.", Toast.LENGTH_LONG).show();
                             LoginManager.getInstance().logOut();
                         }
-                        if(e.getClass() == FirebaseAuthInvalidUserException.class){
+                        if (e.getClass() == FirebaseAuthInvalidUserException.class) {
                             Toast.makeText(LoginActivity.this, "Email não cadastrado no nosso sistema", Toast.LENGTH_LONG).show();
                         }
-                        if(e.getClass() == FirebaseAuthInvalidCredentialsException.class){
+                        if (e.getClass() == FirebaseAuthInvalidCredentialsException.class) {
                             Toast.makeText(LoginActivity.this, "Senha inválida", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            Toast.makeText(LoginActivity.this,"Erro", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Erro", Toast.LENGTH_LONG).show();
                         }
                         e.printStackTrace();
                     }
                 });
     }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -482,7 +610,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 DialogUtils.hideLoadingDialog();
             }
-        }else{
+        } else {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -490,12 +618,14 @@ public class LoginActivity extends AppCompatActivity {
     public void handlerFakeFacebookLogin(View v){
         if(v.getId() == R.id.login_fb_fake){
             mLoginFacebook.performClick();
+//            loginWithFacebook(v);
         }
     }
 
-    public void handlerFakeGoogleLogin(View v){
-        if(v.getId() == R.id.login_google_fake){
-            mGoogleLogin.performClick();
+    public void handlerFakeGoogleLogin(View v) {
+        if (v.getId() == R.id.login_google_fake) {
+            //mGoogleLogin.performClick();
+            signIn();
         }
     }
 }

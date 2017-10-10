@@ -1,38 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_start"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Inicio" />
+            android:id="@+id/nav_inicio"
+            android:icon="@drawable/ic_menu_inicio"
+            android:title="Inicio"
+            />
         <item
-            android:id="@+id/nav_bilhete"
-            android:icon="@drawable/ic_credit_card_black_24dp"
-            android:title="Carregar bilhete" />
+            android:id="@+id/nav_saldo"
+            android:icon="@drawable/ic_menu_cartao2"
+            android:title="Meu Saldo" />
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
-            android:title="Minha carteira" />
+            android:id="@+id/nav_ajuda"
+            android:icon="@drawable/ic_menu_ajuda2"
+            android:title="Ajuda" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_person_black_24dp"
-            android:title="Meu Perfil" />
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_config"
+            android:title="Configurações" />
+
+        <item
+            android:id="@+id/nav_send"
+            android:icon="@drawable/ic_menu_sair"
+            android:title="Sair" />
     </group>
 
-    <item android:title="Outros">
-        <menu>
-            <item
-                android:id="@+id/nav_help"
-                android:icon="@drawable/ic_help_outline_black_24dp"
-                android:title="Ajuda" />
-            <item
-                android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Configurações" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="Sair" />
-        </menu>
-    </item>
 </menu>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/nav_start"-->
+            <!--android:icon="@drawable/ic_home_black_24dp"-->
+            <!--android:title="Inicio" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_bilhete"-->
+            <!--android:icon="@drawable/ic_credit_card_black_24dp"-->
+            <!--android:title="Carregar bilhete" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_camera"-->
+            <!--android:icon="@drawable/ic_account_balance_wallet_black_24dp"-->
+            <!--android:title="Minha carteira" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_gallery"-->
+            <!--android:icon="@drawable/ic_person_black_24dp"-->
+            <!--android:title="Meu Perfil" />-->
+    <!--</group>-->
+
+    <!--<item android:title="Outros">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_help"-->
+                <!--android:icon="@drawable/ic_help_outline_black_24dp"-->
+                <!--android:title="Ajuda" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_manage"-->
+                <!--android:icon="@drawable/ic_menu_manage"-->
+                <!--android:title="Configurações" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_send"-->
+                <!--android:icon="@drawable/ic_exit_to_app_black_24dp"-->
+                <!--android:title="Sair" />-->
+        <!--</menu>-->
+    <!--</item>-->
+<!--</menu>-->
+
+
