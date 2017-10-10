@@ -60,7 +60,7 @@ public class ConfigActivity extends AppCompatActivity {
                     EventBus.getDefault().postSticky(user);
                     startActivity(new Intent(ConfigActivity.this, SettingsActivity.class));
                 }else if(position == 1){
-
+                    startActivity(new Intent(ConfigActivity.this, SaldoConfig.class));
                 }
             }
         });

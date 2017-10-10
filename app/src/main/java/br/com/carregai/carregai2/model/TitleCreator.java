@@ -14,7 +14,7 @@ public class TitleCreator {
         this.mTitleParent = new ArrayList<>();
 
         for(int i = 0; i < 20; i++){
-            TitleParent title = new TitleParent(String.format("Caller %d", i));
+            TitleParent title = new TitleParent(String.format("Recarga %d", i));
             mTitleParent.add(title);
         }
     }

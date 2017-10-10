@@ -19,6 +19,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tab"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:tabIndicatorColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </android.support.design.widget.TabLayout>

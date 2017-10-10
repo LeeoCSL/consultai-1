@@ -6,7 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--    <TextView
+        android:id="@+id/saldo"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/md_white_1000"
+        android:textSize="22sp"
+        android:background="@color/colorPrimary"
+        android:padding="32dp"
+        android:textAlignment="center"
+        android:text="Seu saldo é R$2,50"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
+
     <ListView
+        android:layout_below="@+id/saldo"
         android:drawSelectorOnTop="true"
         android:layout_margin="8dp"
         android:id="@+id/dashboard_listview"

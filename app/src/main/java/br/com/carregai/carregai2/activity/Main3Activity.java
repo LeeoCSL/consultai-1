@@ -224,7 +224,7 @@ public class Main3Activity extends AppCompatActivity
         if (id == R.id.nav_camera) {
 
         } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent(this, MeuSaldo.class));
+            startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

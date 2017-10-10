@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.adapter.ExpandableAdapter;
 import br.com.carregai.carregai2.adapter.RecargaRecyclerAdapter;
 import br.com.carregai.carregai2.model.Recarga;
+import br.com.carregai.carregai2.model.TitleChild;
+import br.com.carregai.carregai2.model.TitleCreator;
+import br.com.carregai.carregai2.model.TitleParent;
 import butterknife.BindView;
 
 
@@ -45,15 +50,30 @@ public class OrdersFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.orders_layout, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_recarga);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
-                LinearLayoutManager.VERTICAL);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new RecargaRecyclerAdapter(mRecargas, getActivity());
+        ExpandableAdapter adapter = new ExpandableAdapter(getContext(), initData());
+        adapter.setParentClickableViewAnimationDefaultDuration();
+        adapter.setParentAndIconExpandOnClick(true);
+
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;
+    }
+
+    private List<ParentObject> initData() {
+        TitleCreator titleCreator = TitleCreator.get(getContext());
+        List<TitleParent> titles = titleCreator.getAll();
+        List<ParentObject> parentObject = new ArrayList<>();
+
+        for(TitleParent title: titles){
+            List<Object> childList = new ArrayList<>();
+            childList.add(new TitleChild("Add to contats"));
+            title.setChildObjectList(childList);
+            parentObject.add(title);
+        }
+        return parentObject;
     }
 
     @Override
@@ -61,7 +81,7 @@ public class OrdersFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+     /*   String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users")
                 .child(userID).child("recargas");
 
@@ -96,7 +116,7 @@ public class OrdersFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 
     @Override
