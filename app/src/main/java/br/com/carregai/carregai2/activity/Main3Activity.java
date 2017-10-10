@@ -63,6 +63,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Main3Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //TODO eventos
+
     public static final String SERVICES_FRAGMENT = "Serviços";
     public static final String ORDERS_FRAGMENT = "Recargas";
     public static final int TOTAL_FRAGMENTS = 2;
@@ -246,6 +248,33 @@ public class Main3Activity extends AppCompatActivity
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        sharedPref.getString("nome", "");
+        sharedPref.getString("emailGoogle", "");
+        sharedPref.getString("emailParam", "");
+        sharedPref.getString("emailFB", "");
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("email", sharedPref.getString("emailParam", " "));
+        bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+        bundle.putString("nome",sharedPref.getString("nome", ""));
+        //TODO fb idade sexo tel
+        bundle.putString("sexo", sharedPref.getString("gender", ""));
+        bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+//        mFirebaseAnalytics.logEvent("logout", bundle);
+
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("nome","");
+        editor.putString("emailGoogle", "");
+        editor.putString("emailFB", "");
+        editor.putString("emailParam", "");
+        editor.putString("gender", "");
+        editor.commit();
+
+
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
