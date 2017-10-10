@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,6 +91,10 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.spinner)
     Spinner mSpinner;
 
+    private TextView mUsername2;
+    private EditText mUserEmail2;
+    private EditText mUsername3;
+
     private String[] gender = new String[]{"Masculino", "Feminino"};
 
     @Override
@@ -97,11 +102,14 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        mUsername2 = (TextView) findViewById(R.id.user_name);
+        mUsername3 = (EditText) findViewById(R.id.et_user_name);
+        mUserEmail2 = (EditText) findViewById(R.id.et_user_email);
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Configurações");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         user = EventBus.getDefault().removeStickyEvent(User.class);
 
@@ -136,6 +144,9 @@ public class SettingsActivity extends AppCompatActivity {
                 if(image != null){
                     Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
                     builder.listener(new Picasso.Listener() {
+
+
+
                         @Override
                         public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
                             mImageView.setImageResource(R.drawable.ic_avatar);
@@ -143,7 +154,10 @@ public class SettingsActivity extends AppCompatActivity {
                     });
                     builder.downloader(new OkHttpDownloader(getApplicationContext()));
                     builder.build().load(image).into(mImageView);
-
+                    user = dataSnapshot.getValue(User.class);
+                    mUsername2.setText(user.getName());
+                    mUsername3.setText(user.getName());
+                    mUserEmail2.setText(user.getEmail());
 /*
                     Picasso.with(getApplicationContext()).
                             load(image).
@@ -156,6 +170,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void voltar(View v){
+        Intent intent = new Intent(this, Main3Activity.class);
+        startActivity(intent);
     }
 
     public void handlerViagemExtra(View v){

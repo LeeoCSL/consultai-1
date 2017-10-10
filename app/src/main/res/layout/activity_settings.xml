@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:padding="12dp" />
+                android:padding="12dp"
+                android:hint="Digite seu nome"/>
 
             <TextView
                 android:text="Email"
@@ -88,7 +89,8 @@
                 android:padding="12dp"
                 android:background="@drawable/selector_card_background"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp" />
+                android:layout_marginRight="8dp"
+                android:hint="Digite seu e-mail"/>
 
             <TextView
                 android:text="Telefone"
@@ -104,7 +106,8 @@
                 android:layout_marginRight="8dp"
                 android:padding="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="Digite seu Telefone"/>
 
             <TextView
                 android:text="Gênero"
