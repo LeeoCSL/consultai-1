@@ -22,7 +22,7 @@
             android:title="Configurações" />
 
         <item
-            android:id="@+id/nav_send"
+            android:id="@+id/nav_sair"
             android:icon="@drawable/ic_menu_sair"
             android:title="Sair" />
     </group>
