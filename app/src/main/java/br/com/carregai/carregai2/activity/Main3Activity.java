@@ -70,6 +70,7 @@ public class Main3Activity extends AppCompatActivity
     public static final int TOTAL_FRAGMENTS = 2;
 
     private TextView mUsername;
+    private TextView nomeMain;
     private TextView mUserEmail;
     private CircleImageView mUserImage;
 
@@ -97,6 +98,7 @@ public class Main3Activity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        nomeMain = (TextView) findViewById(R.id.nomeMain);
         mViewPager = (ViewPager)findViewById(R.id.main_view_pager);
         mTabLayout = (TabLayout)findViewById(R.id.main_tab);
 
@@ -138,9 +140,10 @@ public class Main3Activity extends AppCompatActivity
                 user = dataSnapshot.getValue(User.class);
 
                 Picasso.with(getApplicationContext()).
-                        load(user.getImage()).
+                        load(user.getImage()).placeholder(R.drawable.ic_avatar).
                         into(mUserImage);
 
+                nomeMain.setText(user.getName());
                 mUsername.setText(user.getName());
                 mUserEmail.setText(user.getEmail());
             }
@@ -228,14 +231,14 @@ public class Main3Activity extends AppCompatActivity
             startActivity(new Intent(this, Main3Activity.class));
 
         } else if (id == R.id.nav_saldo) {
-            startActivity(new Intent(this, MeuSaldo.class));
+            startActivity(new Intent(this, SaldoConfig.class));
         } else if (id == R.id.nav_ajuda) {
             startActivity(new Intent(this, ComoUsarActivity.class));
 
         } else if (id == R.id.nav_manage) {
 //            EventBus.getDefault().postSticky(user);
 //            startActivity(new Intent(this, ConfigActivity.class));
-            startActivity(new Intent(this, SettingsActivity.class));
+            startActivity(new Intent(this, ConfigActivity.class));
         }  else if (id == R.id.nav_sair) {
             signOut();
         }

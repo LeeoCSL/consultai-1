@@ -57,7 +57,7 @@ public class ConfigActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0){
-                    EventBus.getDefault().postSticky(user);
+//                    EventBus.getDefault().postSticky(user);
                     startActivity(new Intent(ConfigActivity.this, SettingsActivity.class));
                 }else if(position == 1){
                     startActivity(new Intent(ConfigActivity.this, SaldoConfig.class));

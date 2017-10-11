@@ -4,6 +4,7 @@ package br.com.carregai.carregai2.fragments;
 import br.com.carregai.carregai2.MainActivity;
 import br.com.carregai.carregai2.R;
 import br.com.carregai.carregai2.activity.ComoUsarActivity;
+import br.com.carregai.carregai2.activity.ConfigActivity;
 import br.com.carregai.carregai2.activity.LoginActivity;
 import br.com.carregai.carregai2.activity.Main3Activity;
 import br.com.carregai.carregai2.activity.Payment2Activity;
@@ -80,11 +81,11 @@ public class ServicesFragment extends Fragment {
     private GridView mGridView;
     private DashboardGridViewAdapter mAdapter;
 
-    public static final int COMPRAR_BILHETE = 0;
-    public static final int MINHA_CARTEIRA = 1;
-    public static final int AJUDA = 2;
-    private static final int CONFIGURACOES = 3;
-    private static final int SAIR = 4;
+//    public static final int COMPRAR_BILHETE = 0;
+//    public static final int MINHA_CARTEIRA = 1;
+    public static final int AJUDA = 0;
+    private static final int CONFIGURACOES = 1;
+//    private static final int SAIR = 4;
 
     public static final int DIAS_DA_SEMANA = 7;
 
@@ -125,14 +126,14 @@ public class ServicesFragment extends Fragment {
                     startActivity(new Intent(getApplicationContext(), ComoUsarActivity.class));
                     break;
                 case CONFIGURACOES:
-                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                    startActivity(new Intent(getApplicationContext(), ConfigActivity.class));
                     break;
-                case PAGAMENTO:
-                    startActivity(new Intent(getApplicationContext(), Payment2Activity.class));
-                    break;
-                case SAIR:
-                    signOut();
-                    break;
+//                case PAGAMENTO:
+//                    startActivity(new Intent(getApplicationContext(), Payment2Activity.class));
+//                    break;
+//                case SAIR:
+//                    signOut();
+//                    break;
                 default:
                     Toast.makeText(getApplicationContext(), ""+mItens.get(position).getTitle(), Toast.LENGTH_LONG).show();
                     break;
@@ -194,11 +195,11 @@ public class ServicesFragment extends Fragment {
     private void getItensList() {
         mItens = new ArrayList<>();
 
-        mItens.add(new DashboardItem(R.drawable.ic_bus_card, "Carregar bilhete"));
-        mItens.add(new DashboardItem(R.drawable.ic_wallet, "Minha carteira"));
-        mItens.add(new DashboardItem(R.drawable.ic_help, "Ajuda"));
-        mItens.add(new DashboardItem(R.drawable.ic_config, "Configurações"));
-        mItens.add(new DashboardItem(R.drawable.ic_sair, "Sair"));
+//        mItens.add(new DashboardItem(R.drawable.ic_bus_card, "Carregar bilhete"));
+//        mItens.add(new DashboardItem(R.drawable.ic_wallet, "Minha carteira"));
+        mItens.add(new DashboardItem(R.drawable.ic_menu_ajuda2, "Ajuda"));
+        mItens.add(new DashboardItem(R.drawable.ic_menu_config, "Configurações"));
+//        mItens.add(new DashboardItem(R.drawable.ic_sair, "Sair"));
     }
 
     private void updateViews() {

@@ -60,7 +60,7 @@
 
         <activity
             android:name=".activity.SettingsActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activity.ConfigActivity"
             android:screenOrientation="portrait"/>
 
         <service
@@ -119,9 +119,12 @@
         <activity android:name=".activity.Payment2Activity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ConfigActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.Main3Activity"/>
         <activity android:name=".activity.SaldoConfig"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.Main3Activity"
+            />
     </application>
 
 </manifest>
