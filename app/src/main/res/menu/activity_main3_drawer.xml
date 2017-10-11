@@ -25,12 +25,8 @@
             android:title="Sair" />
     </group>
 
-    <item android:title=" " />
-    <item android:title=" " />
-    <item android:title=" " />
     <item android:title="versão: 00,00" />
 
 </menu>
 
 
-   
