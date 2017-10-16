@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/list_item_image"
-        android:layout_width="24dp"
-        android:layout_height="25dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:src="@drawable/ic_avatar" />
 
     <TextView

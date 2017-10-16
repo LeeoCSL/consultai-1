@@ -228,7 +228,7 @@ public class Main3Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_inicio) {
-            startActivity(new Intent(this, Main3Activity.class));
+//            startActivity(new Intent(this, Main3Activity.class));
 
         } else if (id == R.id.nav_saldo) {
             startActivity(new Intent(this, SaldoConfig.class));
